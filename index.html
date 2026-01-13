@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عبدالعزيز | AB9</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* تفتيح اللون السماوي ليكون مريحاً جداً */
+            --bg-start: #f0f9ff; 
+            --bg-end: #e0f2fe;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 6px solid white;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin: 0 auto 2rem auto;
+            transition: transform 0.4s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+        .main-title {
+            color: #000000;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+        .welcome-badge {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0369a1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 3.5rem;
+            border: 1px solid rgba(3, 105, 161, 0.1);
+        }
+        .section-label {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #000000;
+            margin-bottom: 2rem;
+            display: block;
+        }
+        .link-item {
+            background: white;
+            color: #1e293b;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.25rem;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .link-item:hover {
+            transform: translateY(-5px);
+            background: #fafafa;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+        }
+        .footer-social {
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(3, 105, 161, 0.05);
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+        }
+        .contact-icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #075985;
+            transition: 0.3s;
+        }
+        .contact-icon-wrapper:hover {
+            transform: scale(1.15);
+            color: #000;
+        }
+        .contact-icon-wrapper i {
+            font-size: 3.5rem;
+        }
+        footer {
+            margin-top: 4rem;
+            color: #0369a1;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            opacity: 0.4;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://ugc.production.linktr.ee/a4c19048-e2b7-48d7-8988-5c92fac01a4d_channels4-profile--1-.jpeg?io=true&size=avatar-v3_0" 
+             alt="عبدالعزيز" class="profile-img">
+
+        <h1 class="main-title">عبدالعزيز | AB9</h1>
+
+        <div class="welcome-badge">حياكم الله ♥️</div>
+
+        <span class="section-label">روابطي 👇</span>
+
+        <div class="flex flex-col">
+            <a href="https://www.youtube.com/@انت_صديقي" target="_blank" class="link-item">
+                <i class="fa-solid fa-play text-gray-200 text-sm"></i>
+                <span>قناتي الأساسية 1</span>
+                <i class="fa-brands fa-youtube text-red-600 text-3xl"></i>
+            </a>
+
+            <a href="https://www.youtube.com/@انت_صديق" target="_blank" class="link-item">
+                <i class="fa-solid fa-play text-gray-200 text-sm"></i>
+                <span>قناتي الثانية 2</span>
+                <i class="fa-brands fa-youtube text-red-500 text-3xl opacity-80"></i>
+            </a>
+
+            <a href="https://www.instagram.com/abdalazez_ab9/" target="_blank" class="link-item">
+                <i class="fa-solid fa-camera text-gray-200 text-sm"></i>
+                <span>انستقرام 📸</span>
+                <i class="fa-brands fa-instagram text-pink-600 text-3xl"></i>
+            </a>
+        </div>
+
+        <div class="footer-social">
+            <a href="https://wa.me/966591961956" target="_blank" class="contact-icon-wrapper">
+                <i class="fa-brands fa-whatsapp text-green-500"></i>
+                <span class="text-[10px] font-black uppercase">WhatsApp</span>
+            </a>
+
+            <a href="mailto:twaslabd12345@gmail.com" class="contact-icon-wrapper">
+                <i class="fa-solid fa-envelope-open-text text-blue-500"></i>
+                <span class="text-[10px] font-black uppercase">Email</span>
+            </a>
+        </div>
+
+        <footer class="uppercase">
+            Official AB9 Webpage • 2026
+        </footer>
+    </div>
+
+</body>
+</html>
