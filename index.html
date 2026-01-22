@@ -37,7 +37,6 @@
             background-size: 400% 400%;
             animation: gradientBG 10s ease infinite;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
@@ -69,21 +68,19 @@
             border: 1px solid rgba(255, 255, 255, 0.4); transition: 0.3s; cursor: pointer; width: 100%;
             color: var(--text-name); box-shadow: 0 0 15px var(--glow-color);
         }
-        .link-item:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--glow-color); }
+        .link-item:hover { transform: scale(1.02); }
 
         .about-card { background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.4); color: var(--text-name); backdrop-filter: blur(10px); }
         .hr-style { border: 0; height: 1px; background: var(--separator); width: 50%; margin: 1.2rem auto; }
         .clickable-word { color: #0284c7; text-decoration: underline; cursor: pointer; font-weight: 900; }
 
         .sarahni-input { width: 100%; background: var(--input-bg); border: 2px solid var(--separator); border-radius: 15px; padding: 12px; margin-bottom: 15px; color: var(--text-name); outline: none; }
-        .btn-send { background: #0ea5e9; color: white; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-send:hover { background: #0284c7; }
+        .btn-send { background: #0ea5e9; color: white; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; }
         
-        #success-msg { display: none; background: #10b981; color: white; padding: 10px; border-radius: 12px; margin-top: 10px; font-weight: bold; }
+        #status-msg { display: none; padding: 10px; border-radius: 12px; margin-top: 10px; font-weight: bold; }
 
         .theme-toggle { position: fixed; top: 20px; left: 20px; background: var(--card-bg); width: 45px; height: 45px; border-radius: 15px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; }
         .btn-back { background: #0c4a6e; color: white; padding: 12px 25px; border-radius: 50px; margin-top: 2rem; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
-        .dark-mode .btn-back { background: #3b82f6; }
     </style>
 </head>
 <body>
@@ -106,15 +103,7 @@
         <div id="about-page" class="page-section">
             <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">من أنا؟</h2>
             <div class="about-card">
-                <div class="text-lg font-bold">
-                    معاكم أخوكم <span class="text-sky-600">عبد العزيز</span>
-                    <hr class="hr-style">
-                    يوتيوبر عادي ولكن بطموحات كبيرة
-                    <hr class="hr-style">
-                    محتواي متنوع وعشوائيات
-                    <hr class="hr-style">
-                    فلا تنسوا تتابعو <span class="clickable-word" onclick="showSection('links-page')">حساباتي</span> على السوشل ميديا 👍
-                </div>
+                <div class="text-lg font-bold">معاكم أخوكم <span class="text-sky-600">عبد العزيز</span><hr class="hr-style">يوتيوبر عادي ولكن بطموحات كبيرة<hr class="hr-style">محتواي متنوع وعشوائيات<hr class="hr-style">فلا تنسوا تتابعو <span class="clickable-word" onclick="showSection('links-page')">حساباتي</span> على السوشل ميديا 👍</div>
             </div>
             <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
         </div>
@@ -129,28 +118,24 @@
 
         <div id="contact-page" class="page-section">
             <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">تواصل معي</h2>
-            <a href="https://wa.me/966591961956" target="_blank" class="link-item">
-                <i class="fa-brands fa-whatsapp text-green-500 text-3xl"></i>
-                <div class="flex flex-col items-end"><span class="font-bold text-lg">للتواصل والإعلان</span><span class="text-xs opacity-50">966591961956+</span></div>
-            </a>
-            <a href="mailto:twaslabd12345@gmail.com" class="link-item">
-                <i class="fa-solid fa-envelope text-blue-500 text-3xl"></i>
-                <div class="flex flex-col items-end"><span class="font-bold text-lg">Gmail</span><span class="text-xs opacity-50">twaslabd12345@gmail.com</span></div>
-            </a>
+            <a href="https://wa.me/966591961956" target="_blank" class="link-item"><i class="fa-brands fa-whatsapp text-green-500 text-3xl"></i><div class="flex flex-col items-end"><span class="font-bold text-lg">للتواصل والإعلان</span><span class="text-xs opacity-50">966591961956+</span></div></a>
+            <a href="mailto:twaslabd12345@gmail.com" class="link-item"><i class="fa-solid fa-envelope text-blue-500 text-3xl"></i><div class="flex flex-col items-end"><span class="font-bold text-lg">Gmail</span><span class="text-xs opacity-50">twaslabd12345@gmail.com</span></div></a>
             <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
         </div>
 
         <div id="sarahni-page" class="page-section">
             <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">صارحني 💬</h2>
             <div class="about-card mb-6">
-                <p class="mb-4 text-sm opacity-80">أرسل صراحتك وستصلني مباشرة على الإيميل!</p>
-                <form id="sarahniForm" action="https://formspree.io/f/mqakvjnd" method="POST">
+                <form id="sarahniForm" action="https://formsubmit.co/azizimam9876@gmail.com" method="POST">
                     <input type="text" name="الاسم" class="sarahni-input" placeholder="اسمك المستعار (اختياري)">
                     <textarea name="الرسالة" class="sarahni-input" rows="3" placeholder="اكتب صراحتك هنا..." required></textarea>
-                    <input type="hidden" name="_replyto" value="azizimam9876@gmail.com">
+                    
+                    <input type="hidden" name="_next" value="">
+                    <input type="hidden" name="_captcha" value="false">
+                    
                     <button type="submit" id="submitBtn" class="btn-send">إرسال الصراحة</button>
                 </form>
-                <div id="success-msg">تم إرسال صراحتك بنجاح! شكراً لك ✅</div>
+                <div id="status-msg"></div>
             </div>
             <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
         </div>
@@ -168,45 +153,46 @@
             window.scrollTo(0,0);
         }
 
-        // منطق إرسال النموذج للبريد
         const form = document.getElementById("sarahniForm");
-        form.addEventListener("submit", async function(event) {
-            event.preventDefault();
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
             const btn = document.getElementById("submitBtn");
-            const success = document.getElementById("success-msg");
+            const status = document.getElementById("status-msg");
             
             btn.innerText = "جاري الإرسال...";
             btn.disabled = true;
 
-            const data = new FormData(event.target);
-            fetch(event.target.action, {
-                method: form.method,
-                body: data,
-                headers: { 'Accept': 'application/json' }
-            }).then(response => {
+            const formData = new FormData(form);
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
                 if (response.ok) {
-                    success.style.display = "block";
+                    status.innerText = "تم الإرسال بنجاح! ستصلك رسالة تأكيد على إيميلك ✅";
+                    status.style.display = "block";
+                    status.style.backgroundColor = "#10b981";
+                    status.style.color = "white";
                     form.reset();
-                    btn.innerText = "تم الإرسال ✅";
-                    setTimeout(() => { success.style.display = "none"; btn.innerText = "إرسال الصراحة"; btn.disabled = false; }, 4000);
                 } else {
-                    alert("حدث خطأ، حاول مرة أخرى");
-                    btn.innerText = "إرسال الصراحة";
-                    btn.disabled = false;
+                    throw new Error();
                 }
-            });
+            } catch (error) {
+                status.innerText = "خطأ! تأكد من اتصال الإنترنت وحاول مجدداً ❌";
+                status.style.display = "block";
+                status.style.backgroundColor = "#ef4444";
+                status.style.color = "white";
+            } finally {
+                btn.innerText = "إرسال الصراحة";
+                btn.disabled = false;
+            }
         });
 
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
-            const icon = document.getElementById('theme-icon');
-            if(document.body.classList.contains('dark-mode')) {
-                icon.classList.replace('fa-moon', 'fa-sun');
-                icon.style.color = '#fbbf24';
-            } else {
-                icon.classList.replace('fa-sun', 'fa-moon');
-                icon.style.color = '#0284c7';
-            }
         }
 
         // Particles
@@ -225,4 +211,4 @@
         anim();
     </script>
 </body>
-                </html>
+</html>
