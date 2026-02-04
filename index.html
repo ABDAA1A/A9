@@ -19,7 +19,6 @@
             --welcome-text: #0284c7;
             --separator: #e0f2fe;
             --accent-color: #ffffff;
-            /* توهج خفيف للوضع النهاري */
             --glow-color: rgba(14, 165, 233, 0.3);
         }
 
@@ -31,7 +30,6 @@
             --welcome-text: #60a5fa;
             --separator: #334155;
             --accent-color: #e0f2fe;
-            /* توهج أقوى للوضع الليلي */
             --glow-color: rgba(96, 165, 250, 0.4);
         }
 
@@ -48,11 +46,7 @@
         }
 
         #particles-js {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
         }
 
         @keyframes gradientBG {
@@ -62,22 +56,13 @@
         }
 
         .container {
-            width: 100%;
-            max-width: 450px;
-            padding: 40px 20px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 10;
+            width: 100%; max-width: 450px; padding: 40px 20px; margin: 0 auto; text-align: center; position: relative; z-index: 10;
         }
 
         .shiny-name {
             background: linear-gradient(to right, var(--text-name) 20%, var(--accent-color) 50%, var(--text-name) 80%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 2.5s linear infinite;
-            font-weight: 900;
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine 2.5s linear infinite; font-weight: 900;
         }
 
         @keyframes shine { to { background-position: 200% center; } }
@@ -91,84 +76,40 @@
         }
 
         .profile-img {
-            width: 140px; height: 140px;
-            border-radius: 50%;
-            border: 4px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            margin: 0 auto 1.5rem;
-            transition: 0.5s;
+            width: 140px; height: 140px; border-radius: 50%; border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin: 0 auto 1.5rem; transition: 0.5s;
         }
 
-        /* تأثير التوهج الخارجي للأقسام */
         .link-item {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 1.2rem;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            width: 100%;
-            text-decoration: none;
-            color: var(--text-name);
-            box-shadow: 0 0 15px var(--glow-color); /* التوهج */
+            background: var(--card-bg); backdrop-filter: blur(12px); padding: 1.2rem 1.5rem;
+            margin-bottom: 1.2rem; border-radius: 20px; display: flex; align-items: center;
+            justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease; cursor: pointer; width: 100%; text-decoration: none;
+            color: var(--text-name); box-shadow: 0 0 15px var(--glow-color);
         }
 
-        .link-item:hover { 
-            transform: scale(1.02);
-            background: rgba(255, 255, 255, 0.95); 
-            box-shadow: 0 0 25px var(--glow-color); /* زيادة التوهج عند اللمس */
-        }
+        .link-item:hover { transform: scale(1.02); background: rgba(255, 255, 255, 0.95); box-shadow: 0 0 25px var(--glow-color); }
 
         .theme-toggle {
-            position: fixed;
-            top: 20px; left: 20px;
-            background: var(--card-bg);
-            width: 45px; height: 45px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
+            position: fixed; top: 20px; left: 20px; background: var(--card-bg); width: 45px; height: 45px;
+            border-radius: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+            z-index: 1000; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3);
         }
 
         .btn-back {
-            background: #0c4a6e;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            margin-top: 2rem;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            background: #0c4a6e; color: white; padding: 12px 25px; border-radius: 50px;
+            margin-top: 2rem; font-weight: bold; display: inline-flex; align-items: center; gap: 10px;
         }
         .dark-mode .btn-back { background: #3b82f6; }
 
+        .input-style {
+            width: 100%; padding: 12px; border-radius: 15px; border: 1px solid var(--separator);
+            margin-bottom: 1rem; background: rgba(255,255,255,0.5); color: var(--text-name); outline: none;
+        }
+
         .about-card {
-            background: var(--card-bg);
-            padding: 2.5rem 1.5rem;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.4);
-            color: var(--text-name);
-            backdrop-filter: blur(10px);
-        }
-
-        .hr-style {
-            border: 0; height: 1px; background: var(--separator);
-            width: 50%; margin: 1.2rem auto;
-        }
-
-        .clickable-word {
-            color: #0284c7; text-decoration: underline;
-            cursor: pointer; font-weight: 900;
+            background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.4); color: var(--text-name); backdrop-filter: blur(10px);
         }
     </style>
 </head>
@@ -187,10 +128,10 @@
                 <img src="https://ugc.production.linktr.ee/a4c19048-e2b7-48d7-8988-5c92fac01a4d_channels4-profile--1-.jpeg?io=true&size=avatar-v3_0" alt="AB9" class="profile-img">
             </div>
             
-            <h1 id="main-name" class="text-3xl font-black mb-2 shiny-name">عبدالعزيز | AB9</h1>
+            <h1 class="text-3xl font-black mb-2 shiny-name">عبدالعزيز | AB9</h1>
 
             <div class="bg-white/60 dark:bg-slate-800/60 px-6 py-2 rounded-full text-sky-700 dark:text-blue-400 font-bold mb-10 inline-block shadow-sm">
-            حياكم الله في موقعي الرسمي ✨ 
+                حياكم الله في موقعي الرسمي ✨ 
             </div>
 
             <div class="flex flex-col w-full">
@@ -206,9 +147,9 @@
                     <i class="fa-solid fa-chevron-left opacity-30"></i>
                 </button>
 
-                <button onclick="showSection('contact-page')" class="link-item" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fa-solid fa-envelope-open-text text-green-600 text-2xl"></i>
-                    <span class="font-bold text-lg">تواصل معي</span>
+                <button onclick="showSection('sarahni-page')" class="link-item" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-solid fa-comment-dots text-pink-500 text-2xl"></i>
+                    <span class="font-bold text-lg">صارحني</span>
                     <i class="fa-solid fa-chevron-left opacity-30"></i>
                 </button>
             </div>
@@ -216,16 +157,14 @@
 
         <div id="about-page" class="page-section">
             <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">من أنا؟</h2>
-            <div class="about-card">
-                <div class="text-lg font-bold">
-                    معاكم أخوكم <span class="text-sky-600">عبد العزيز</span>
-                    <hr class="hr-style">
-                    يوتيوبر عادي ولكن بطموحات كبيرة
-                    <hr class="hr-style">
-                    محتواي متنوع وعشوائيات
-                    <hr class="hr-style">
-                    فلا تنسوا تتابعو <span class="clickable-word" onclick="showSection('links-page')">حساباتي</span> على السوشل ميديا 👍
-                </div>
+            <div class="about-card text-lg font-bold">
+                معاكم أخوكم <span class="text-sky-600">عبد العزيز</span>
+                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
+                يوتيوبر عادي ولكن بطموحات كبيرة
+                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
+                محتواي متنوع وعشوائيات
+                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
+                فلا تنسوا تتابعوا حساباتي 👍
             </div>
             <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
         </div>
@@ -233,13 +172,13 @@
         <div id="links-page" class="page-section">
             <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">حساباتي</h2>
             
-            <a href="https://www.youtube.com/@%D8%A7%D9%86%D8%AA_%D8%B5%D8%AF%D9%8I%D9%82%D9%8I" target="_blank" class="link-item">
+            <a href="https://www.youtube.com/@انت_صديقي" target="_blank" class="link-item">
                 <i class="fa-brands fa-youtube text-red-600 text-3xl"></i>
                 <span class="font-bold text-lg">قناتي الأساسية</span>
                 <i class="fa-solid fa-chevron-left opacity-20"></i>
             </a>
 
-            <a href="http://www.youtube.com/@%D8%A7%D9%86%D8%AA_%D8%B5%D8%AF%D9%8I%D9%82" target="_blank" class="link-item">
+            <a href="https://www.youtube.com/@انت_صديق" target="_blank" class="link-item">
                 <i class="fa-brands fa-youtube text-red-500 text-3xl"></i>
                 <span class="font-bold text-lg">القناة الثانية</span>
                 <i class="fa-solid fa-chevron-left opacity-20"></i>
@@ -251,28 +190,33 @@
                 <i class="fa-solid fa-chevron-left opacity-20"></i>
             </a>
 
+            <button onclick="showSection('tiktok-empty')" class="link-item">
+                <i class="fa-brands fa-tiktok text-black dark:text-white text-3xl"></i>
+                <span class="font-bold text-lg">تيك توك</span>
+                <i class="fa-solid fa-chevron-left opacity-20"></i>
+            </button>
+
             <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
         </div>
 
-        <div id="contact-page" class="page-section">
-            <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">تواصل معي</h2>
-            
-            <a href="https://wa.me/966591961956" target="_blank" class="link-item">
-                <i class="fa-brands fa-whatsapp text-green-500 text-3xl"></i>
-                <div class="flex flex-col items-end">
-                    <span class="font-bold text-lg">للتواصل والإعلان</span>
-                    <span class="text-xs opacity-50">966591961956+</span>
-                </div>
-            </a>
+        <div id="tiktok-empty" class="page-section">
+            <div class="about-card py-20">
+                <h2 class="text-2xl font-bold">ما عندي حساب تيك توك 🙂</h2>
+            </div>
+            <button onclick="showSection('links-page')" class="btn-back"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
+        </div>
 
-            <a href="mailto:twaslabd12345@gmail.com" class="link-item">
-                <i class="fa-solid fa-envelope text-blue-500 text-3xl"></i>
-                <div class="flex flex-col items-end">
-                    <span class="font-bold text-lg">Gmail</span>
-                    <span class="text-xs opacity-50">twaslabd12345@gmail.com</span>
-                </div>
-            </a>
-
+        <div id="sarahni-page" class="page-section">
+            <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">صارحني</h2>
+            <div id="form-container" class="about-card">
+                <input type="text" id="sender-name" placeholder="اكتب اسمك هنا..." class="input-style">
+                <textarea id="sender-msg" rows="4" placeholder="اكتب رسالتك الصريحة..." class="input-style"></textarea>
+                <button onclick="sendSarahni()" class="w-full bg-sky-600 text-white font-bold py-3 rounded-xl hover:bg-sky-700 transition">إرسال الرسالة</button>
+            </div>
+            <div id="thanks-msg" class="about-card hidden animate-bounce">
+                <i class="fa-solid fa-heart text-red-500 text-4xl mb-4"></i>
+                <p class="text-lg font-bold">شكراً لك على الرسالة راح أقرأها قريب.....</p>
+            </div>
             <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
         </div>
 
@@ -285,16 +229,12 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
+        // جافا سكريبت للخلفية المتحركة
         const canvas = document.getElementById('particles-js');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
 
         class Particle {
             constructor() { this.init(); }
@@ -307,21 +247,16 @@
                 this.blink = Math.random() * 0.02;
             }
             update() {
-                this.y += this.speedY;
-                this.opacity += this.blink;
+                this.y += this.speedY; this.opacity += this.blink;
                 if (this.opacity > 0.9 || this.opacity < 0.2) this.blink *= -1;
                 if (this.y > canvas.height) this.y = -10;
             }
             draw() {
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.shadowBlur = 12; ctx.shadowColor = "white";
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill(); ctx.shadowBlur = 0;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
-
         for (let i = 0; i < 65; i++) particles.push(new Particle());
-
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => { p.update(); p.draw(); });
@@ -329,24 +264,45 @@
         }
         animate();
 
+        // وظائف التنقل
         function showSection(id) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            // إعادة ضبط نموذج صارحني عند العودة
+            if(id === 'sarahni-page') {
+                document.getElementById('form-container').classList.remove('hidden');
+                document.getElementById('thanks-msg').classList.add('hidden');
+            }
             window.scrollTo(0,0);
+        }
+
+        // وظيفة إرسال صارحني
+        function sendSarahni() {
+            const name = document.getElementById('sender-name').value;
+            const msg = document.getElementById('sender-msg').value;
+            
+            if(name.trim() === "" || msg.trim() === "") {
+                alert("لطفاً اكتب اسمك ورسالتك");
+                return;
+            }
+            
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('thanks-msg').classList.remove('hidden');
+            // تنظيف الحقول
+            document.getElementById('sender-name').value = "";
+            document.getElementById('sender-msg').value = "";
         }
 
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
             body.classList.toggle('dark-mode');
-             if(body.classList.contains('dark-mode')) {
-                icon.classList.replace('fa-moon', 'fa-sun');
-                icon.style.color = '#fbbf24';
+            if(body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun'); icon.style.color = '#fbbf24';
             } else {
-                icon.classList.replace('fa-sun', 'fa-moon');
-                icon.style.color = '#0284c7';
+                icon.classList.replace('fa-sun', 'fa-moon'); icon.style.color = '#0284c7';
             }
         }
     </script>
 </body>
-</html>
+                </html>
