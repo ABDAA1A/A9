@@ -1,216 +1,308 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>تحدي الموزة 3D - النسخة الكاملة</title>
-    <style>
-        body { margin: 0; overflow: hidden; background: #87CEEB; touch-action: none; font-family: sans-serif; }
-        #ui { position: absolute; top: 20px; width: 100%; text-align: center; color: white; font-size: 28px; font-weight: bold; text-shadow: 2px 2px 4px #000; z-index: 100; pointer-events: none; }
-        
-        #game-over { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.85); display: none; flex-direction: column; 
-            align-items: center; justify-content: center; z-index: 1000; 
-        }
-        #game-over h1 { color: #ffeb3b; font-size: 50px; margin-bottom: 20px; }
-        #retry-btn { padding: 15px 50px; font-size: 24px; background: #4caf50; color: white; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عبدالعزيز | AB9</title>
+   
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-        /* أزرار التحكم */
-        #joy { position: absolute; bottom: 40px; left: 30px; width: 120px; height: 120px; background: rgba(255,255,255,0.2); border: 3px solid white; border-radius: 50%; z-index: 200; }
-        #stick { position: absolute; top: 35px; left: 35px; width: 50px; height: 50px; background: white; border-radius: 50%; }
-        #shoot { position: absolute; bottom: 40px; right: 30px; width: 100px; height: 100px; background: rgba(255,0,0,0.6); border: 3px solid white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; z-index: 200; cursor: pointer; user-select: none; }
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(-45deg, #0ea5e9, #7dd3fc, #e0f2fe, #bae6fd);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-name: #0c4a6e;
+            --welcome-bg: rgba(255, 255, 255, 0.6);
+            --welcome-text: #0284c7;
+            --separator: #e0f2fe;
+            --accent-color: #ffffff;
+            --glow-color: rgba(14, 165, 233, 0.3);
+        }
+
+        .dark-mode {
+            --bg-gradient: linear-gradient(-45deg, #0f172a, #1e293b, #111827, #1e1b4b);
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --text-name: #ffffff;
+            --welcome-bg: rgba(30, 41, 59, 0.7);
+            --welcome-text: #60a5fa;
+            --separator: #334155;
+            --accent-color: #e0f2fe;
+            --glow-color: rgba(96, 165, 250, 0.4);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            min-height: 100vh;
+            transition: background 0.5s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #particles-js {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%; max-width: 450px; padding: 40px 20px; margin: 0 auto; text-align: center; position: relative; z-index: 10;
+        }
+
+        .shiny-name {
+            background: linear-gradient(to right, var(--text-name) 20%, var(--accent-color) 50%, var(--text-name) 80%);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine 2.5s linear infinite; font-weight: 900;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .page-section { display: none; width: 100%; }
+        .page-section.active { display: block; animation: fadeIn 0.4s ease-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-img {
+            width: 140px; height: 140px; border-radius: 50%; border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin: 0 auto 1.5rem; transition: 0.5s;
+        }
+
+        .link-item {
+            background: var(--card-bg); backdrop-filter: blur(12px); padding: 1.2rem 1.5rem;
+            margin-bottom: 1.2rem; border-radius: 20px; display: flex; align-items: center;
+            justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease; cursor: pointer; width: 100%; text-decoration: none;
+            color: var(--text-name); box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        .link-item:hover { transform: scale(1.02); background: rgba(255, 255, 255, 0.95); box-shadow: 0 0 25px var(--glow-color); }
+
+        .theme-toggle {
+            position: fixed; top: 20px; left: 20px; background: var(--card-bg); width: 45px; height: 45px;
+            border-radius: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+            z-index: 1000; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-back {
+            background: #0c4a6e; color: white; padding: 12px 25px; border-radius: 50px;
+            margin-top: 2rem; font-weight: bold; display: inline-flex; align-items: center; gap: 10px;
+        }
+        .dark-mode .btn-back { background: #3b82f6; }
+
+        .input-style {
+            width: 100%; padding: 12px; border-radius: 15px; border: 1px solid var(--separator);
+            margin-bottom: 1rem; background: rgba(255,255,255,0.5); color: var(--text-name); outline: none;
+        }
+
+        .about-card {
+            background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.4); color: var(--text-name); backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body>
 
-    <div id="ui">النقاط: <span id="score">0</span></div>
-    
-    <div id="game-over">
-        <h1>لقد خسرت!</h1>
-        <button id="retry-btn">إعادة المحاولة</button>
+    <canvas id="particles-js"></canvas>
+
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i id="theme-icon" class="fa-solid fa-moon text-xl text-sky-600"></i>
     </div>
 
-    <div id="joy"><div id="stick"></div></div>
-    <div id="shoot">إطلاق</div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <script>
-        let score = 0, gameActive = true;
-        const enemies = [], bullets = [], particles = [];
-        let moveX = 0, moveZ = 0;
-
-        // 1. إعداد المشهد
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x87CEEB);
-        scene.fog = new THREE.Fog(0x87CEEB, 15, 50);
-
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 6, 12);
-
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        document.body.appendChild(renderer.domElement);
-
-        const light = new THREE.DirectionalLight(0xffffff, 1.2);
-        light.position.set(5, 10, 7);
-        scene.add(light, new THREE.AmbientLight(0xffffff, 0.5));
-
-        // 2. الأرضية العشبية
-        const ground = new THREE.Mesh(
-            new THREE.PlaneGeometry(500, 500), 
-            new THREE.MeshStandardMaterial({ color: 0x2d5a27 })
-        );
-        ground.rotation.x = -Math.PI / 2;
-        scene.add(ground);
-
-        // 3. دالة صنع الشخصيات (موزة وبشر)
-        function createCharacter(type) {
-            const group = new THREE.Group();
-            const color = (type === 'player') ? 0xffeb3b : 0x444444;
-            const skin = (type === 'player') ? 0xffeb3b : 0xffdbac;
-
-            // الجسم
-            const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.4, 1), new THREE.MeshStandardMaterial({ color }));
-            body.position.y = 1.2;
-            group.add(body);
-
-            // الرأس
-            const head = new THREE.Mesh(new THREE.SphereGeometry(0.3), new THREE.MeshStandardMaterial({ color: skin }));
-            head.position.y = 1.9;
-            group.add(head);
-
-            // الأطراف
-            const limbGeo = new THREE.CapsuleGeometry(0.1, 0.6);
-            const limbMat = new THREE.MeshStandardMaterial({ color: (type === 'player' ? 0xffeb3b : 0x222222) });
+    <div class="container">
+        
+        <div id="main-page" class="page-section active">
+            <div data-aos="zoom-in">
+                <img src="https://ugc.production.linktr.ee/a4c19048-e2b7-48d7-8988-5c92fac01a4d_channels4-profile--1-.jpeg?io=true&size=avatar-v3_0" alt="AB9" class="profile-img">
+            </div>
             
-            const lArm = new THREE.Mesh(limbGeo, limbMat); lArm.position.set(-0.5, 1.3, 0);
-            const rArm = lArm.clone(); rArm.position.x = 0.5;
-            const lLeg = new THREE.Mesh(limbGeo, new THREE.MeshStandardMaterial({color: 0x111111})); lLeg.position.set(-0.25, 0.4, 0);
-            const rLeg = lLeg.clone(); rLeg.position.x = 0.25;
-            group.add(lArm, rArm, lLeg, rLeg);
+            <h1 class="text-3xl font-black mb-2 shiny-name">عبدالعزيز | AB9</h1>
 
-            // مسدس للاعب
-            if (type === 'player') {
-                const gun = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.2, 0.6), new THREE.MeshStandardMaterial({ color: 0x000000 }));
-                gun.position.set(0.6, 1.4, 0.4);
-                group.add(gun);
+            <div class="bg-white/60 dark:bg-slate-800/60 px-6 py-2 rounded-full text-sky-700 dark:text-blue-400 font-bold mb-10 inline-block shadow-sm">
+                حياكم الله في موقعي الرسمي ✨ 
+            </div>
+
+            <div class="flex flex-col w-full">
+                <button onclick="showSection('about-page')" class="link-item" data-aos="fade-up">
+                    <i class="fa-solid fa-user-astronaut text-sky-600 text-2xl"></i>
+                    <span class="font-bold text-lg">من أنا؟</span>
+                    <i class="fa-solid fa-chevron-left opacity-30"></i>
+                </button>
+
+                <button onclick="showSection('links-page')" class="link-item" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fa-solid fa-share-nodes text-purple-600 text-2xl"></i>
+                    <span class="font-bold text-lg">حساباتي</span>
+                    <i class="fa-solid fa-chevron-left opacity-30"></i>
+                </button>
+
+                <button onclick="showSection('sarahni-page')" class="link-item" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-solid fa-comment-dots text-pink-500 text-2xl"></i>
+                    <span class="font-bold text-lg">صارحني</span>
+                    <i class="fa-solid fa-chevron-left opacity-30"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="about-page" class="page-section">
+            <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">من أنا؟</h2>
+            <div class="about-card text-lg font-bold">
+                معاكم أخوكم <span class="text-sky-600">عبد العزيز</span>
+                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
+                يوتيوبر عادي ولكن بطموحات كبيرة
+                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
+                محتواي متنوع وعشوائيات
+                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
+                فلا تنسوا تتابعوا حساباتي 👍
+            </div>
+            <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
+        </div>
+
+        <div id="links-page" class="page-section">
+            <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">حساباتي</h2>
+            
+            <a href="https://www.youtube.com/@انت_صديقي" target="_blank" class="link-item">
+                <i class="fa-brands fa-youtube text-red-600 text-3xl"></i>
+                <span class="font-bold text-lg">قناتي الأساسية</span>
+                <i class="fa-solid fa-chevron-left opacity-20"></i>
+            </a>
+
+            <a href="https://www.youtube.com/@انت_صديق" target="_blank" class="link-item">
+                <i class="fa-brands fa-youtube text-red-500 text-3xl"></i>
+                <span class="font-bold text-lg">القناة الثانية</span>
+                <i class="fa-solid fa-chevron-left opacity-20"></i>
+            </a>
+
+            <a href="https://www.instagram.com/abdalazez_ab9/" target="_blank" class="link-item">
+                <i class="fa-brands fa-instagram text-pink-600 text-3xl"></i>
+                <span class="font-bold text-lg">انستقرام 📸</span>
+                <i class="fa-solid fa-chevron-left opacity-20"></i>
+            </a>
+
+            <button onclick="showSection('tiktok-empty')" class="link-item">
+                <i class="fa-brands fa-tiktok text-black dark:text-white text-3xl"></i>
+                <span class="font-bold text-lg">تيك توك</span>
+                <i class="fa-solid fa-chevron-left opacity-20"></i>
+            </button>
+
+            <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
+        </div>
+
+        <div id="tiktok-empty" class="page-section">
+            <div class="about-card py-20">
+                <h2 class="text-2xl font-bold">ما عندي حساب تيك توك 🙂</h2>
+            </div>
+            <button onclick="showSection('links-page')" class="btn-back"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
+        </div>
+
+        <div id="sarahni-page" class="page-section">
+            <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">صارحني</h2>
+            <div id="form-container" class="about-card">
+                <input type="text" id="sender-name" placeholder="اكتب اسمك هنا..." class="input-style">
+                <textarea id="sender-msg" rows="4" placeholder="اكتب رسالتك الصريحة..." class="input-style"></textarea>
+                <button onclick="sendSarahni()" class="w-full bg-sky-600 text-white font-bold py-3 rounded-xl hover:bg-sky-700 transition">إرسال الرسالة</button>
+            </div>
+            <div id="thanks-msg" class="about-card hidden animate-bounce">
+                <i class="fa-solid fa-heart text-red-500 text-4xl mb-4"></i>
+                <p class="text-lg font-bold">شكراً لك على الرسالة راح أقرأها قريب.....</p>
+            </div>
+            <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
+        </div>
+
+        <footer class="mt-20 opacity-40 text-[10px] font-bold" style="color: var(--text-name);">
+            جميع الحقوق محفوظة لدى AB9 ©
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // جافا سكريبت للخلفية المتحركة
+        const canvas = document.getElementById('particles-js');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+
+        class Particle {
+            constructor() { this.init(); }
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1.5;
+                this.speedY = Math.random() * 0.4 + 0.1;
+                this.opacity = Math.random() * 0.8 + 0.2;
+                this.blink = Math.random() * 0.02;
             }
-
-            return group;
-        }
-
-        const player = createCharacter('player');
-        scene.add(player);
-
-        // 4. التحكم (الجويستيك)
-        const joy = document.getElementById('joy');
-        const stick = document.getElementById('stick');
-
-        const handleMove = (x, y) => {
-            const rect = joy.getBoundingClientRect();
-            const dx = x - (rect.left + 60);
-            const dy = y - (rect.top + 60);
-            const dist = Math.min(Math.sqrt(dx*dx + dy*dy), 50);
-            const angle = Math.atan2(dy, dx);
-            moveX = Math.cos(angle) * (dist / 50);
-            moveZ = Math.sin(angle) * (dist / 50);
-            stick.style.transform = `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px)`;
-        };
-
-        window.addEventListener('touchmove', (e) => { handleMove(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, {passive: false});
-        window.addEventListener('touchend', () => { moveX = 0; moveZ = 0; stick.style.transform = 'none'; });
-
-        // 5. الإطلاق والانفجارات
-        const shootBtn = document.getElementById('shoot');
-        function fire() {
-            if (!gameActive) return;
-            const b = new THREE.Mesh(new THREE.SphereGeometry(0.2), new THREE.MeshBasicMaterial({ color: 0xffff00 }));
-            b.position.copy(player.position); b.position.y = 1.4;
-            const dir = new THREE.Vector3(0, 0, -1.5); // الإطلاق للأمام دائماً
-            b.velocity = dir;
-            bullets.push(b); scene.add(b);
-        }
-        shootBtn.addEventListener('touchstart', (e) => { fire(); e.preventDefault(); });
-        shootBtn.onclick = fire;
-
-        function explode(pos) {
-            for(let i=0; i<8; i++) {
-                const p = new THREE.Mesh(new THREE.SphereGeometry(0.1), new THREE.MeshBasicMaterial({ color: 0xff4400 }));
-                p.position.copy(pos);
-                p.velocity = new THREE.Vector3((Math.random()-0.5)*0.4, Math.random()*0.4, (Math.random()-0.5)*0.4);
-                p.life = 20;
-                particles.push(p); scene.add(p);
+            update() {
+                this.y += this.speedY; this.opacity += this.blink;
+                if (this.opacity > 0.9 || this.opacity < 0.2) this.blink *= -1;
+                if (this.y > canvas.height) this.y = -10;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
-
-        // 6. الأعداء
-        function spawn() {
-            if (!gameActive) return;
-            const en = createCharacter('enemy');
-            en.position.set((Math.random()-0.5)*40, 0, player.position.z - 40);
-            enemies.push(en); scene.add(en);
-        }
-        setInterval(spawn, 1800);
-
-        document.getElementById('retry-btn').onclick = () => location.reload();
-
-        // 7. المحرك الرئيسي
+        for (let i = 0; i < 65; i++) particles.push(new Particle());
         function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
-            if (!gameActive) return;
+        }
+        animate();
 
-            // حركة اللاعب والكاميرا
-            player.position.x += moveX * 0.3;
-            player.position.z += moveZ * 0.3;
-            camera.position.set(player.position.x, 6, player.position.z + 12);
-            camera.lookAt(player.position.x, 1, player.position.z);
-
-            // الرصاص
-            bullets.forEach((b, i) => {
-                b.position.add(b.velocity);
-                if (b.position.z < player.position.z - 60) { scene.remove(b); bullets.splice(i, 1); }
-            });
-
-            // الأعداء
-            enemies.forEach((en, ei) => {
-                en.position.z += 0.08; // سرعة سهلة
-                en.lookAt(player.position.x, 0, player.position.z);
-                
-                // اصطدام الرصاص بالعدو
-                bullets.forEach((b, bi) => {
-                    if (b.position.distanceTo(en.position.clone().add(new THREE.Vector3(0,1,0))) < 1.3) {
-                        explode(en.position);
-                        scene.remove(en); enemies.splice(ei, 1);
-                        scene.remove(b); bullets.splice(bi, 1);
-                        score += 10; document.getElementById('score').innerText = score;
-                    }
-                });
-
-                // خسارة
-                if (en.position.distanceTo(player.position) < 1.5) {
-                    gameActive = false;
-                    document.getElementById('game-over').style.display = 'flex';
-                }
-            });
-
-            // الجزيئات
-            particles.forEach((p, i) => {
-                p.position.add(p.velocity); p.life--;
-                if (p.life <= 0) { scene.remove(p); particles.splice(i, 1); }
-            });
-
-            renderer.render(scene, camera);
+        // وظائف التنقل
+        function showSection(id) {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            // إعادة ضبط نموذج صارحني عند العودة
+            if(id === 'sarahni-page') {
+                document.getElementById('form-container').classList.remove('hidden');
+                document.getElementById('thanks-msg').classList.add('hidden');
+            }
+            window.scrollTo(0,0);
         }
 
-        animate();
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        // وظيفة إرسال صارحني
+        function sendSarahni() {
+            const name = document.getElementById('sender-name').value;
+            const msg = document.getElementById('sender-msg').value;
+            
+            if(name.trim() === "" || msg.trim() === "") {
+                alert("لطفاً اكتب اسمك ورسالتك");
+                return;
+            }
+            
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('thanks-msg').classList.remove('hidden');
+            // تنظيف الحقول
+            document.getElementById('sender-name').value = "";
+            document.getElementById('sender-msg').value = "";
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            body.classList.toggle('dark-mode');
+            if(body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun'); icon.style.color = '#fbbf24';
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon'); icon.style.color = '#0284c7';
+            }
+        }
     </script>
 </body>
-</html>
+                                                                             </html>
