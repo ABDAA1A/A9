@@ -15,9 +15,6 @@
             --bg-gradient: linear-gradient(-45deg, #0ea5e9, #7dd3fc, #e0f2fe, #bae6fd);
             --card-bg: rgba(255, 255, 255, 0.8);
             --text-name: #0c4a6e;
-            --welcome-bg: rgba(255, 255, 255, 0.6);
-            --welcome-text: #0284c7;
-            --separator: #e0f2fe;
             --accent-color: #ffffff;
             --glow-color: rgba(14, 165, 233, 0.3);
         }
@@ -26,10 +23,6 @@
             --bg-gradient: linear-gradient(-45deg, #0f172a, #1e293b, #111827, #1e1b4b);
             --card-bg: rgba(30, 41, 59, 0.75);
             --text-name: #ffffff;
-            --welcome-bg: rgba(30, 41, 59, 0.7);
-            --welcome-text: #60a5fa;
-            --separator: #334155;
-            --accent-color: #e0f2fe;
             --glow-color: rgba(96, 165, 250, 0.4);
         }
 
@@ -38,16 +31,12 @@
             margin: 0;
             background: var(--bg-gradient);
             background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
+            animation: gradientBG 8s ease infinite;
             min-height: 100vh;
-            transition: background 0.5s ease;
-            position: relative;
             overflow-x: hidden;
         }
 
-        #particles-js {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
-        }
+        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -56,61 +45,70 @@
         }
 
         .container {
-            width: 100%; max-width: 450px; padding: 40px 20px; margin: 0 auto; text-align: center; position: relative; z-index: 10;
+            width: 100%; max-width: 450px; padding: 20px 20px; margin: 0 auto; text-align: center; position: relative; z-index: 10;
+        }
+
+        /* الاسم المتحرك */
+        .profile-wrapper { margin-top: -10px; margin-bottom: 2rem; }
+        .profile-img {
+            width: 150px; height: 150px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.6);
+            box-shadow: 0 0 20px var(--glow-color); margin: 0 auto; 
+            animation: floatImage 4s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
         .shiny-name {
-            background: linear-gradient(to right, var(--text-name) 20%, var(--accent-color) 50%, var(--text-name) 80%);
-            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shine 2.5s linear infinite; font-weight: 900;
+            font-size: 2.6rem;
+            color: var(--text-name);
+            font-weight: 900;
+            margin-top: 15px;
+            display: inline-block;
+            animation: bounceName 3s ease-in-out infinite;
+            text-shadow: 0 5px 15px var(--glow-color);
         }
 
-        @keyframes shine { to { background-position: 200% center; } }
-
-        .page-section { display: none; width: 100%; }
-        .page-section.active { display: block; animation: fadeIn 0.4s ease-out; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes bounceName {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .profile-img {
-            width: 140px; height: 140px; border-radius: 50%; border: 4px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin: 0 auto 1.5rem; transition: 0.5s;
+        /* النجمة */
+        .rotating-star {
+            display: inline-block; color: #ffd700; font-size: 1.5rem;
+            animation: rotate3d 3s linear infinite; transform-style: preserve-3d; vertical-align: middle;
         }
+        @keyframes rotate3d { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 
+        /* الخانات الموحدة */
         .link-item {
             background: var(--card-bg); backdrop-filter: blur(12px); padding: 1.2rem 1.5rem;
             margin-bottom: 1.2rem; border-radius: 20px; display: flex; align-items: center;
             justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease; cursor: pointer; width: 100%; text-decoration: none;
-            color: var(--text-name); box-shadow: 0 0 15px var(--glow-color);
+            transition: all 0.3s ease; cursor: pointer; color: var(--text-name); width: 100%;
+            animation: floatCard 5s ease-in-out infinite;
         }
+        @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .link-item:hover { transform: scale(1.05) !important; box-shadow: 0 10px 25px var(--glow-color); }
 
-        .link-item:hover { transform: scale(1.02); background: rgba(255, 255, 255, 0.95); box-shadow: 0 0 25px var(--glow-color); }
+        .page-section { display: none; }
+        .page-section.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-        .theme-toggle {
-            position: fixed; top: 20px; left: 20px; background: var(--card-bg); width: 45px; height: 45px;
-            border-radius: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer;
-            z-index: 1000; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3);
+        .about-card { background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.4); }
+        
+        .special-link {
+            color: #f43f5e; text-decoration: underline; cursor: pointer; font-weight: 900;
+            transition: 0.3s; display: inline-block;
         }
+        .special-link:hover { transform: scale(1.1); color: #0ea5e9; }
 
-        .btn-back {
-            background: #0c4a6e; color: white; padding: 12px 25px; border-radius: 50px;
-            margin-top: 2rem; font-weight: bold; display: inline-flex; align-items: center; gap: 10px;
-        }
-        .dark-mode .btn-back { background: #3b82f6; }
-
-        .input-style {
-            width: 100%; padding: 12px; border-radius: 15px; border: 1px solid var(--separator);
-            margin-bottom: 1rem; background: rgba(255,255,255,0.5); color: var(--text-name); outline: none;
-        }
-
-        .about-card {
-            background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.4); color: var(--text-name); backdrop-filter: blur(10px);
-        }
+        .input-style { width: 100%; padding: 12px; border-radius: 15px; margin-bottom: 1rem; background: rgba(255,255,255,0.5); border: 2px solid transparent; outline: none; }
+        .comment-item { background: rgba(255,255,255,0.5); padding: 12px; border-radius: 15px; margin-top: 10px; border-right: 4px solid #0ea5e9; text-align: right; }
+        .theme-toggle { position: fixed; top: 20px; left: 20px; background: var(--card-bg); width: 45px; height: 45px; border-radius: 15px; display: flex; align-items: center; justify-content: center; z-index: 1000; }
     </style>
 </head>
 <body>
@@ -124,49 +122,49 @@
     <div class="container">
         
         <div id="main-page" class="page-section active">
-            <div data-aos="zoom-in">
+            <div class="profile-wrapper">
                 <img src="https://ugc.production.linktr.ee/a4c19048-e2b7-48d7-8988-5c92fac01a4d_channels4-profile--1-.jpeg?io=true&size=avatar-v3_0" alt="AB9" class="profile-img">
+                <h1 class="shiny-name">عبدالعزيز | AB9</h1>
             </div>
-            
-            <h1 class="text-3xl font-black mb-2 shiny-name">عبدالعزيز | AB9</h1>
 
             <div class="bg-white/60 dark:bg-slate-800/60 px-6 py-2 rounded-full text-sky-700 dark:text-blue-400 font-bold mb-10 inline-block shadow-sm">
-                حياكم الله في موقعي الرسمي ✨ 
+                حياكم الله في موقعي الرسمي <span class="rotating-star"><i class="fa-solid fa-star"></i></span>
             </div>
 
             <div class="flex flex-col w-full">
-                <button onclick="showSection('about-page')" class="link-item" data-aos="fade-up">
+                <div onclick="showSection('about-page')" class="link-item">
                     <i class="fa-solid fa-user-astronaut text-sky-600 text-2xl"></i>
                     <span class="font-bold text-lg">من أنا؟</span>
                     <i class="fa-solid fa-chevron-left opacity-30"></i>
-                </button>
+                </div>
 
-                <button onclick="showSection('links-page')" class="link-item" data-aos="fade-up" data-aos-delay="100">
+                <div onclick="showSection('links-page')" class="link-item">
                     <i class="fa-solid fa-share-nodes text-purple-600 text-2xl"></i>
                     <span class="font-bold text-lg">حساباتي</span>
                     <i class="fa-solid fa-chevron-left opacity-30"></i>
-                </button>
+                </div>
 
-                <button onclick="showSection('sarahni-page')" class="link-item" data-aos="fade-up" data-aos-delay="200">
+                <div onclick="showSection('sarahni-page')" class="link-item">
                     <i class="fa-solid fa-comment-dots text-pink-500 text-2xl"></i>
                     <span class="font-bold text-lg">صارحني</span>
                     <i class="fa-solid fa-chevron-left opacity-30"></i>
-                </button>
+                </div>
             </div>
         </div>
 
         <div id="about-page" class="page-section">
             <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">من أنا؟</h2>
             <div class="about-card text-lg font-bold">
+                <div class="mb-4"><i class="fa-solid fa-user-tie text-5xl text-sky-600 animate-bounce"></i></div>
                 معاكم أخوكم <span class="text-sky-600">عبد العزيز</span>
                 <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
                 يوتيوبر عادي ولكن بطموحات كبيرة
                 <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
                 محتواي متنوع وعشوائيات
                 <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
-                فلا تنسوا تتابعوا حساباتي 👍
+                فلا تنسوا تتابعوا <span class="special-link" onclick="showSection('links-page')">حساباتي</span>
             </div>
-            <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
+            <button onclick="showSection('main-page')" class="bg-sky-600 text-white px-8 py-3 rounded-full mt-6 font-bold shadow-lg">الرئيسية</button>
         </div>
 
         <div id="links-page" class="page-section">
@@ -175,49 +173,52 @@
             <a href="https://www.youtube.com/@انت_صديقي" target="_blank" class="link-item">
                 <i class="fa-brands fa-youtube text-red-600 text-3xl"></i>
                 <span class="font-bold text-lg">قناتي الأساسية</span>
-                <i class="fa-solid fa-chevron-left opacity-20"></i>
+                <i class="fa-solid fa-external-link-alt opacity-20"></i>
             </a>
 
             <a href="https://www.youtube.com/@انت_صديق" target="_blank" class="link-item">
                 <i class="fa-brands fa-youtube text-red-500 text-3xl"></i>
                 <span class="font-bold text-lg">القناة الثانية</span>
-                <i class="fa-solid fa-chevron-left opacity-20"></i>
+                <i class="fa-solid fa-external-link-alt opacity-20"></i>
             </a>
 
             <a href="https://www.instagram.com/abdalazez_ab9/" target="_blank" class="link-item">
                 <i class="fa-brands fa-instagram text-pink-600 text-3xl"></i>
                 <span class="font-bold text-lg">انستقرام 📸</span>
-                <i class="fa-solid fa-chevron-left opacity-20"></i>
+                <i class="fa-solid fa-external-link-alt opacity-20"></i>
             </a>
 
-            <button onclick="showSection('tiktok-empty')" class="link-item">
+            <div onclick="showSection('tiktok-empty')" class="link-item">
                 <i class="fa-brands fa-tiktok text-black dark:text-white text-3xl"></i>
                 <span class="font-bold text-lg">تيك توك</span>
                 <i class="fa-solid fa-chevron-left opacity-20"></i>
-            </button>
+            </div>
 
-            <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
+            <button onclick="showSection('main-page')" class="bg-sky-600 text-white px-8 py-3 rounded-full mt-6 font-bold shadow-lg">الرئيسية</button>
         </div>
 
         <div id="tiktok-empty" class="page-section">
             <div class="about-card py-20">
-                <h2 class="text-2xl font-bold">ما عندي حساب تيك توك 🙂</h2>
+                <h2 class="text-2xl font-bold text-sky-900 dark:text-white">ما عندي حساب تيك توك 🙂</h2>
             </div>
-            <button onclick="showSection('links-page')" class="btn-back"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
+            <button onclick="showSection('links-page')" class="bg-sky-600 text-white px-8 py-3 rounded-full mt-6 font-bold shadow-lg">رجوع للحسابات</button>
         </div>
 
         <div id="sarahni-page" class="page-section">
             <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">صارحني</h2>
-            <div id="form-container" class="about-card">
-                <input type="text" id="sender-name" placeholder="اكتب اسمك هنا..." class="input-style">
-                <textarea id="sender-msg" rows="4" placeholder="اكتب رسالتك الصريحة..." class="input-style"></textarea>
-                <button onclick="sendSarahni()" class="w-full bg-sky-600 text-white font-bold py-3 rounded-xl hover:bg-sky-700 transition">إرسال الرسالة</button>
+            <div class="about-card">
+                <div id="name-step">
+                    <input type="text" id="sender-name" placeholder="اكتب اسمك..." class="input-style">
+                    <button onclick="saveName()" class="w-full bg-sky-600 text-white font-bold py-3 rounded-xl">دخول</button>
+                </div>
+                <div id="msg-step" class="hidden">
+                    <p class="mb-3 font-bold text-sky-600">أهلاً <span id="display-user-name"></span> ✨</p>
+                    <textarea id="sender-msg" rows="4" placeholder="اكتب رسالتك..." class="input-style"></textarea>
+                    <button onclick="sendSarahni()" class="w-full bg-sky-600 text-white font-bold py-3 rounded-xl shadow-md">إرسال</button>
+                </div>
+                <div id="comments-list"></div>
             </div>
-            <div id="thanks-msg" class="about-card hidden animate-bounce">
-                <i class="fa-solid fa-heart text-red-500 text-4xl mb-4"></i>
-                <p class="text-lg font-bold">شكراً لك على الرسالة راح أقرأها قريب.....</p>
-            </div>
-            <button onclick="showSection('main-page')" class="btn-back"><i class="fa-solid fa-house"></i> الرئيسية</button>
+            <button onclick="showSection('main-page')" class="bg-sky-600 text-white px-8 py-3 rounded-full mt-6 font-bold shadow-lg">الرئيسية</button>
         </div>
 
         <footer class="mt-20 opacity-40 text-[10px] font-bold" style="color: var(--text-name);">
@@ -225,11 +226,7 @@
         </footer>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
-
-        // جافا سكريبت للخلفية المتحركة
         const canvas = document.getElementById('particles-js');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -238,71 +235,39 @@
 
         class Particle {
             constructor() { this.init(); }
-            init() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1.5;
-                this.speedY = Math.random() * 0.4 + 0.1;
-                this.opacity = Math.random() * 0.8 + 0.2;
-                this.blink = Math.random() * 0.02;
-            }
-            update() {
-                this.y += this.speedY; this.opacity += this.blink;
-                if (this.opacity > 0.9 || this.opacity < 0.2) this.blink *= -1;
-                if (this.y > canvas.height) this.y = -10;
-            }
-            draw() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
+            init() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.speedY = Math.random() * 2 + 1; this.size = Math.random() * 2 + 1; this.opacity = Math.random(); }
+            update() { this.y += this.speedY; if (this.y > canvas.height) this.y = -10; }
+            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-        for (let i = 0; i < 65; i++) particles.push(new Particle());
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
+        for (let i = 0; i < 70; i++) particles.push(new Particle());
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
 
-        // وظائف التنقل
         function showSection(id) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            // إعادة ضبط نموذج صارحني عند العودة
-            if(id === 'sarahni-page') {
-                document.getElementById('form-container').classList.remove('hidden');
-                document.getElementById('thanks-msg').classList.add('hidden');
-            }
             window.scrollTo(0,0);
         }
 
-        // وظيفة إرسال صارحني
+        function saveName() {
+            const val = document.getElementById('sender-name').value;
+            if(!val) return;
+            document.getElementById('display-user-name').innerText = val;
+            document.getElementById('name-step').classList.add('hidden');
+            document.getElementById('msg-step').classList.remove('hidden');
+        }
+
         function sendSarahni() {
-            const name = document.getElementById('sender-name').value;
             const msg = document.getElementById('sender-msg').value;
-            
-            if(name.trim() === "" || msg.trim() === "") {
-                alert("لطفاً اكتب اسمك ورسالتك");
-                return;
-            }
-            
-            document.getElementById('form-container').classList.add('hidden');
-            document.getElementById('thanks-msg').classList.remove('hidden');
-            // تنظيف الحقول
-            document.getElementById('sender-name').value = "";
+            if(!msg) return;
+            const div = document.createElement('div');
+            div.className = 'comment-item';
+            div.innerHTML = `<strong>${document.getElementById('sender-name').value}:</strong> <p>${msg}</p>`;
+            document.getElementById('comments-list').prepend(div);
             document.getElementById('sender-msg').value = "";
         }
 
-        function toggleTheme() {
-            const body = document.body;
-            const icon = document.getElementById('theme-icon');
-            body.classList.toggle('dark-mode');
-            if(body.classList.contains('dark-mode')) {
-                icon.classList.replace('fa-moon', 'fa-sun'); icon.style.color = '#fbbf24';
-            } else {
-                icon.classList.replace('fa-sun', 'fa-moon'); icon.style.color = '#0284c7';
-            }
-        }
+        function toggleTheme() { document.body.classList.toggle('dark-mode'); }
     </script>
 </body>
-                                                                             </html>
+                </html>
