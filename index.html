@@ -3,265 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عبدالعزيز | AB9</title>
-   
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>متجر AB9 الاحترافي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --bg-gradient: linear-gradient(-45deg, #0ea5e9, #7dd3fc, #e0f2fe, #bae6fd);
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --text-name: #0c4a6e;
-            --accent-color: #ffffff;
-            --glow-color: rgba(14, 165, 233, 0.3);
-        }
-
-        .dark-mode {
-            --bg-gradient: linear-gradient(-45deg, #0f172a, #1e293b, #111827, #1e1b4b);
-            --card-bg: rgba(30, 41, 59, 0.75);
-            --text-name: #ffffff;
-            --glow-color: rgba(96, 165, 250, 0.4);
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
-            background: var(--bg-gradient);
-            background-size: 400% 400%;
-            animation: gradientBG 8s ease infinite;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .container {
-            width: 100%; max-width: 450px; padding: 20px 20px; margin: 0 auto; text-align: center; position: relative; z-index: 10;
-        }
-
-        /* الاسم المتحرك */
-        .profile-wrapper { margin-top: -10px; margin-bottom: 2rem; }
-        .profile-img {
-            width: 150px; height: 150px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.6);
-            box-shadow: 0 0 20px var(--glow-color); margin: 0 auto; 
-            animation: floatImage 4s ease-in-out infinite;
-        }
-
-        @keyframes floatImage {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .shiny-name {
-            font-size: 2.6rem;
-            color: var(--text-name);
-            font-weight: 900;
-            margin-top: 15px;
-            display: inline-block;
-            animation: bounceName 3s ease-in-out infinite;
-            text-shadow: 0 5px 15px var(--glow-color);
-        }
-
-        @keyframes bounceName {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* النجمة */
-        .rotating-star {
-            display: inline-block; color: #ffd700; font-size: 1.5rem;
-            animation: rotate3d 3s linear infinite; transform-style: preserve-3d; vertical-align: middle;
-        }
-        @keyframes rotate3d { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-
-        /* الخانات الموحدة */
-        .link-item {
-            background: var(--card-bg); backdrop-filter: blur(12px); padding: 1.2rem 1.5rem;
-            margin-bottom: 1.2rem; border-radius: 20px; display: flex; align-items: center;
-            justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease; cursor: pointer; color: var(--text-name); width: 100%;
-            animation: floatCard 5s ease-in-out infinite;
-        }
-        @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        .link-item:hover { transform: scale(1.05) !important; box-shadow: 0 10px 25px var(--glow-color); }
-
-        .page-section { display: none; }
-        .page-section.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
-        .about-card { background: var(--card-bg); padding: 2.5rem 1.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.4); }
-        
-        .special-link {
-            color: #f43f5e; text-decoration: underline; cursor: pointer; font-weight: 900;
-            transition: 0.3s; display: inline-block;
-        }
-        .special-link:hover { transform: scale(1.1); color: #0ea5e9; }
-
-        .input-style { width: 100%; padding: 12px; border-radius: 15px; margin-bottom: 1rem; background: rgba(255,255,255,0.5); border: 2px solid transparent; outline: none; }
-        .comment-item { background: rgba(255,255,255,0.5); padding: 12px; border-radius: 15px; margin-top: 10px; border-right: 4px solid #0ea5e9; text-align: right; }
-        .theme-toggle { position: fixed; top: 20px; left: 20px; background: var(--card-bg); width: 45px; height: 45px; border-radius: 15px; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap');
+        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
+        .active-modal { display: flex !important; }
+        .product-card:hover { transform: translateY(-5px); transition: 0.3s; }
+        .itun-coin { color: #f59e0b; font-weight: bold; }
     </style>
 </head>
-<body>
+<body class="pb-20">
 
-    <canvas id="particles-js"></canvas>
+<!-- شاشة الترحيب (تظهر أول مرة فقط) -->
+<div id="welcomeModal" class="modal active-modal items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-96 text-center">
+        <h2 class="text-2xl font-bold mb-4">مرحباً بك في متجرنا</h2>
+        <input type="text" id="userNameInput" placeholder="أدخل اسمك الكريم" class="w-full border p-3 rounded-lg mb-4 text-right">
+        <button onclick="saveUser()" class="bg-blue-600 text-white px-6 py-2 rounded-lg w-full font-bold">دخول المتجر</button>
+    </div>
+</div>
 
-    <div class="theme-toggle" onclick="toggleTheme()">
-        <i id="theme-icon" class="fa-solid fa-moon text-xl text-sky-600"></i>
+<!-- شريط الرأس -->
+<nav class="bg-white shadow-sm sticky top-0 z-50 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <h1 class="text-2xl font-black text-blue-600">AB9 STORE</h1>
+            <div class="hidden md:block bg-gray-100 rounded-full px-4 py-2">
+                <i class="fas fa-search text-gray-400"></i>
+                <input type="text" placeholder="ابحث عن منتج..." class="bg-transparent outline-none mr-2">
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="text-center">
+                <p class="text-xs text-gray-500">رصيدك</p>
+                <p class="font-bold text-green-600"><span id="userBalance">0</span> ريال</p>
+            </div>
+            <div class="text-center">
+                <p class="text-xs text-gray-500">نقاطك</p>
+                <p class="font-bold text-purple-600"><span id="userPoints">0</span> نُقطة</p>
+            </div>
+            <button onclick="toggleCart()" class="relative">
+                <i class="fas fa-shopping-cart text-2xl text-gray-700"></i>
+                <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="container mx-auto p-4">
+    <!-- قسم المحفظة والايتون -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div class="bg-gradient-to-l from-blue-500 to-blue-700 p-6 rounded-2xl text-white shadow-lg">
+            <h3 class="text-xl mb-2"><i class="fas fa-wallet ml-2"></i> شحن المحفظة (وهمي)</h3>
+            <div class="flex gap-2">
+                <input type="number" id="depositAmount" placeholder="أدخل المبلغ" class="text-black p-2 rounded-lg flex-1">
+                <button onclick="depositMoney()" class="bg-white text-blue-700 px-4 py-2 rounded-lg font-bold">إيداع</button>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md border-2 border-yellow-400">
+            <h3 class="text-xl mb-2 text-yellow-700 font-bold"><i class="fas fa-coins ml-2"></i> عملة الايتون (E-TUN)</h3>
+            <p class="text-sm text-gray-600 mb-2">قيمة العملة الواحدة = 5 ريال سعودي</p>
+            <button onclick="buyItun()" class="bg-yellow-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-yellow-600 transition">تحويل الرصيد إلى ايتون</button>
+        </div>
     </div>
 
-    <div class="container">
+    <!-- قسم الألعاب -->
+    <h2 class="text-2xl font-bold mb-4"><i class="fas fa-gamepad ml-2 text-red-500"></i> منطقة الألعاب (العب واكسب نقاط)</h2>
+    <div class="bg-gray-800 p-8 rounded-2xl text-white text-center mb-10">
+        <div id="gameArea" class="mb-4">
+            <p class="mb-4">لعبة الديناصور السريع</p>
+            <div class="text-6xl mb-4">🦖</div>
+            <button onclick="playGame()" class="bg-green-500 px-8 py-3 rounded-full font-bold text-xl hover:scale-105 transition">ابدأ اللعب الآن</button>
+        </div>
+        <p class="text-gray-400 text-sm">كل فوز يمنحك 50 نقطة!</p>
+    </div>
+
+    <!-- المنتجات -->
+    <h2 class="text-2xl font-bold mb-6">أحدث المنتجات العالمية ✨</h2>
+    <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- سيتم توليد المنتجات هنا بواسطة جافا سكريبت -->
+    </div>
+</div>
+
+<!-- سلة المشتريات -->
+<div id="cartModal" class="modal items-center justify-center">
+    <div class="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-lg">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">سلة المشتريات</h2>
+            <button onclick="toggleCart()" class="text-gray-500 text-2xl">&times;</button>
+        </div>
+        <div id="cartItems" class="max-h-60 overflow-y-auto mb-4">
+            <!-- منتجات السلة -->
+        </div>
+        <div class="border-t pt-4">
+            <div class="flex justify-between text-xl font-bold mb-6">
+                <span>الإجمالي:</span>
+                <span id="cartTotal">0</span> ريال
+            </div>
+            <button onclick="showCheckout()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-lg">إتمام الطلب</button>
+        </div>
+    </div>
+</div>
+
+<!-- شاشة الدفع والتحقق -->
+<div id="checkoutModal" class="modal items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4">بيانات الشحن</h2>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm mb-1">المدينة</label>
+                <select id="citySelect" class="w-full border p-3 rounded-lg">
+                    <option>الرياض</option><option>جدة</option><option>مكة المكرمة</option>
+                    <option>المدينة المنورة</option><option>الدمام</option><option>أبها</option>
+                    <option>تبوك</option><option>بريدة</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm mb-1">رقم الهاتف</label>
+                <div class="flex">
+                    <input type="text" value="+966" disabled class="bg-gray-100 p-3 rounded-r-lg border w-20 text-center">
+                    <input type="text" id="phoneInput" maxlength="9" placeholder="5XXXXXXXX" class="w-full border p-3 rounded-l-lg outline-none">
+                </div>
+            </div>
+            <button onclick="sendOTP()" class="w-full bg-black text-white py-3 rounded-xl font-bold">تأكيد وإرسال الرمز</button>
+        </div>
+    </div>
+</div>
+
+<!-- شاشة الرمز OTP -->
+<div id="otpModal" class="modal items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-80 text-center">
+        <i class="fas fa-comment-dots text-4xl text-blue-500 mb-4"></i>
+        <h2 class="text-xl font-bold mb-2">التحقق من الهاتف</h2>
+        <p class="text-sm text-gray-500 mb-4">أدخل الرمز المرسل إلى هاتفك</p>
+        <input type="number" id="otpInput" placeholder="- - - -" class="w-full border-2 border-blue-500 p-3 rounded-lg text-center text-2xl tracking-widest mb-4">
+        <button onclick="finishOrder()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">تأكيد الطلب</button>
+    </div>
+</div>
+
+<script>
+    let balance = 0;
+    let points = 0;
+    let cart = [];
+    const itunPrice = 5;
+
+    const products = [
+        { id: 1, name: "آيفون 15 برو ماكس", price: 4500, category: "جوالات", img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=200" },
+        { id: 2, name: "ساعة رولكس كلاسيك", price: 12000, category: "ساعات", img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=200" },
+        { id: 3, name: "بلايستيشن 5 برو", price: 2800, category: "ألعاب", img: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=200" },
+        { id: 4, name: "عملة إيتون (100 قطعة)", price: 500, category: "عملة", img: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=200" },
+        { id: 5, name: "سماعات آيربودز ماكس", price: 1900, category: "إلكترونيات", img: "https://images.unsplash.com/photo-1613040819283-b6060aa79b8a?w=200" },
+        { id: 6, name: "لاب توب ألعاب RGB", price: 5500, category: "ألعاب", img: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=200" },
+        { id: 7, name: "ساعة ذكية ألترا", price: 900, category: "ساعات", img: "https://images.unsplash.com/photo-1508685096489-7aac29147fe0?w=200" },
+        { id: 8, name: "نينتندو سويتش OLED", price: 1400, category: "ألعاب", img: "https://images.unsplash.com/photo-1578303372217-b7a9ad0c7b52?w=200" }
+    ];
+
+    function init() {
+        const grid = document.getElementById('productsGrid');
+        products.forEach(p => {
+            grid.innerHTML += `
+                <div class="product-card bg-white rounded-xl shadow-md overflow-hidden p-3 border border-gray-100">
+                    <div class="grid grid-cols-2 gap-1 mb-2">
+                        <img src="${p.img}" class="w-full h-20 object-cover rounded">
+                        <img src="${p.img}" class="w-full h-20 object-cover rounded opacity-80">
+                        <img src="${p.img}" class="w-full h-20 object-cover rounded opacity-60">
+                        <img src="${p.img}" class="w-full h-20 object-cover rounded opacity-40">
+                    </div>
+                    <h3 class="font-bold text-sm mb-1">${p.name}</h3>
+                    <p class="text-blue-600 font-bold mb-3">${p.price} ريال</p>
+                    <button onclick="addToCart(${p.id})" class="w-full bg-gray-100 text-gray-800 py-2 rounded-lg text-xs font-bold hover:bg-blue-600 hover:text-white transition">إضافة للسلة</button>
+                </div>
+            `;
+        });
+    }
+
+    function saveUser() {
+        const name = document.getElementById('userNameInput').value;
+        if(name) {
+            document.getElementById('welcomeModal').classList.remove('active-modal');
+            alert("أهلاً بك يا " + name);
+        }
+    }
+
+    function depositMoney() {
+        const amt = parseInt(document.getElementById('depositAmount').value);
+        if(amt > 0) {
+            balance += amt;
+            updateDisplay();
+            document.getElementById('depositAmount').value = '';
+        }
+    }
+
+    function buyItun() {
+        if(balance >= 5) {
+            balance -= 5;
+            points += 20;
+            updateDisplay();
+            alert("تم شراء 1 إيتون بنجاح! كسبت 20 نقطة");
+        } else {
+            alert("رصيدك لا يكفي");
+        }
+    }
+
+    function addToCart(id) {
+        const product = products.find(p => p.id === id);
+        cart.push(product);
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        document.getElementById('userBalance').innerText = balance;
+        document.getElementById('userPoints').innerText = points;
+        document.getElementById('cartCount').innerText = cart.length;
         
-        <div id="main-page" class="page-section active">
-            <div class="profile-wrapper">
-                <img src="https://ugc.production.linktr.ee/a4c19048-e2b7-48d7-8988-5c92fac01a4d_channels4-profile--1-.jpeg?io=true&size=avatar-v3_0" alt="AB9" class="profile-img">
-                <h1 class="shiny-name">عبدالعزيز | AB9</h1>
-            </div>
-
-            <div class="bg-white/60 dark:bg-slate-800/60 px-6 py-2 rounded-full text-sky-700 dark:text-blue-400 font-bold mb-10 inline-block shadow-sm">
-                حياكم الله في موقعي الرسمي <span class="rotating-star"><i class="fa-solid fa-star"></i></span>
-            </div>
-
-            <div class="flex flex-col w-full">
-                <div onclick="showSection('about-page')" class="link-item">
-                    <i class="fa-solid fa-user-astronaut text-sky-600 text-2xl"></i>
-                    <span class="font-bold text-lg">من أنا؟</span>
-                    <i class="fa-solid fa-chevron-left opacity-30"></i>
+        const cartItems = document.getElementById('cartItems');
+        cartItems.innerHTML = '';
+        let total = 0;
+        cart.forEach((item, index) => {
+            total += item.price;
+            cartItems.innerHTML += `
+                <div class="flex justify-between items-center mb-3 bg-gray-50 p-2 rounded">
+                    <span>${item.name}</span>
+                    <span class="font-bold">${item.price} ريال</span>
+                    <button onclick="removeItem(${index})" class="text-red-500 text-xs">حذف</button>
                 </div>
+            `;
+        });
+        document.getElementById('cartTotal').innerText = total;
+    }
 
-                <div onclick="showSection('links-page')" class="link-item">
-                    <i class="fa-solid fa-share-nodes text-purple-600 text-2xl"></i>
-                    <span class="font-bold text-lg">حساباتي</span>
-                    <i class="fa-solid fa-chevron-left opacity-30"></i>
-                </div>
+    function removeItem(index) {
+        cart.splice(index, 1);
+        updateDisplay();
+    }
 
-                <div onclick="showSection('sarahni-page')" class="link-item">
-                    <i class="fa-solid fa-comment-dots text-pink-500 text-2xl"></i>
-                    <span class="font-bold text-lg">صارحني</span>
-                    <i class="fa-solid fa-chevron-left opacity-30"></i>
-                </div>
-            </div>
-        </div>
+    function toggleCart() {
+        document.getElementById('cartModal').classList.toggle('active-modal');
+    }
 
-        <div id="about-page" class="page-section">
-            <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">من أنا؟</h2>
-            <div class="about-card text-lg font-bold">
-                <div class="mb-4"><i class="fa-solid fa-user-tie text-5xl text-sky-600 animate-bounce"></i></div>
-                معاكم أخوكم <span class="text-sky-600">عبد العزيز</span>
-                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
-                يوتيوبر عادي ولكن بطموحات كبيرة
-                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
-                محتواي متنوع وعشوائيات
-                <div class="h-[1px] bg-sky-200 my-4 w-1/2 mx-auto"></div>
-                فلا تنسوا تتابعوا <span class="special-link" onclick="showSection('links-page')">حساباتي</span>
-            </div>
-            <button onclick="showSection('main-page')" class="bg-sky-600 text-white px-8 py-3 rounded-full mt-6 font-bold shadow-lg">الرئيسية</button>
-        </div>
+    function showCheckout() {
+        if(cart.length === 0) return alert("السلة فارغة");
+        document.getElementById('cartModal').classList.remove('active-modal');
+        document.getElementById('checkoutModal').classList.add('active-modal');
+    }
 
-        <div id="links-page" class="page-section">
-            <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">حساباتي</h2>
+    function sendOTP() {
+        const phone = document.getElementById('phoneInput').value;
+        if(phone.length === 9) {
+            document.getElementById('checkoutModal').classList.remove('active-modal');
+            document.getElementById('otpModal').classList.add('active-modal');
+        } else {
+            alert("يرجى إدخال رقم هاتف صحيح (9 أرقام)");
+        }
+    }
+
+    function finishOrder() {
+        const total = parseInt(document.getElementById('cartTotal').innerText);
+        if(balance >= total) {
+            balance -= total;
+            // حساب النقاط: نقطة واحدة لكل 10 ريال
+            const earnedPoints = Math.floor(total / 10);
+            points += earnedPoints;
             
-            <a href="https://www.youtube.com/@انت_صديق" target="_blank" class="link-item">
-                <i class="fa-brands fa-youtube text-red-600 text-3xl"></i>
-                <span class="font-bold text-lg">قناتي الأساسية</span>
-                <i class="fa-solid fa-external-link-alt opacity-20"></i>
-            </a>
-
-            <a href="https://www.instagram.com/abdalazez_ab9/" target="_blank" class="link-item">
-                <i class="fa-brands fa-instagram text-pink-600 text-3xl"></i>
-                <span class="font-bold text-lg">انستقرام 📸</span>
-                <i class="fa-solid fa-external-link-alt opacity-20"></i>
-            </a>
-
-            <div onclick="showSection('tiktok-empty')" class="link-item">
-                <i class="fa-brands fa-tiktok text-black dark:text-white text-3xl"></i>
-                <span class="font-bold text-lg">تيك توك</span>
-                <i class="fa-solid fa-chevron-left opacity-20"></i>
-            </div>
-
-            <button onclick="showSection('main-page')" class="bg-sky-600 text-white px-8 py-3 rounded-full mt-6 font-bold shadow-lg">الرئيسية</button>
-        </div>
-
-        <div id="tiktok-empty" class="page-section">
-            <div class="about-card py-20">
-                <h2 class="text-2xl font-bold text-sky-900 dark:text-white">ما عندي حساب تيك توك 🙂</h2>
-            </div>
-            <button onclick="showSection('links-page')" class="bg-sky-600 text-white px-8 py-3 rounded-full mt-6 font-bold shadow-lg">رجوع للحسابات</button>
-        </div>
-
-        <div id="sarahni-page" class="page-section">
-            <h2 class="text-2xl font-black mb-6" style="color: var(--text-name);">صارحني</h2>
-            <div class="about-card">
-                <div id="name-step">
-                    <input type="text" id="sender-name" placeholder="اكتب اسمك..." class="input-style">
-                    <button onclick="saveName()" class="w-full bg-sky-600 text-white font-bold py-3 rounded-xl">دخول</button>
-                </div>
-                <div id="msg-step" class="hidden">
-                    <p class="mb-3 font-bold text-sky-600">أهلاً <span id="display-user-name"></span> ✨</p>
-                    <textarea id="sender-msg" rows="4" placeholder="اكتب رسالتك..." class="input-style"></textarea>
-                    <button onclick="sendSarahni()" class="w-full bg-sky-600 text-white font-bold py-3 rounded-xl shadow-md">إرسال</button>
-                </div>
-                <div id="comments-list"></div>
-            </div>
-            <button onclick="showSection('main-page')" class="bg-sky-600 text-white px-8 py-3 rounded-full mt-6 font-bold shadow-lg">الرئيسية</button>
-        </div>
-
-        <footer class="mt-20 opacity-40 text-[10px] font-bold" style="color: var(--text-name);">
-            جميع الحقوق محفوظة لدى AB9 ©
-        </footer>
-    </div>
-
-    <script>
-        const canvas = document.getElementById('particles-js');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize); resize();
-
-        class Particle {
-            constructor() { this.init(); }
-            init() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.speedY = Math.random() * 2 + 1; this.size = Math.random() * 2 + 1; this.opacity = Math.random(); }
-            update() { this.y += this.speedY; if (this.y > canvas.height) this.y = -10; }
-            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+            alert(`تم الطلب بنجاح! 🎉\nلقد كسبت ${earnedPoints} نقطة.`);
+            cart = [];
+            updateDisplay();
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active-modal'));
+        } else {
+            alert("عذراً، رصيدك غير كافٍ. يرجى شحن المحفظة أولاً");
         }
-        for (let i = 0; i < 70; i++) particles.push(new Particle());
-        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-        animate();
+    }
 
-        function showSection(id) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
-        }
+    function playGame() {
+        alert("بدأت اللعبة! 🦖 ... قفزت فوق الصبار!");
+        setTimeout(() => {
+            points += 50;
+            updateDisplay();
+            alert("رائع! فزت بـ 50 نقطة إضافية.");
+        }, 1000);
+    }
 
-        function saveName() {
-            const val = document.getElementById('sender-name').value;
-            if(!val) return;
-            document.getElementById('display-user-name').innerText = val;
-            document.getElementById('name-step').classList.add('hidden');
-            document.getElementById('msg-step').classList.remove('hidden');
-        }
-
-        function sendSarahni() {
-            const msg = document.getElementById('sender-msg').value;
-            if(!msg) return;
-            const div = document.createElement('div');
-            div.className = 'comment-item';
-            div.innerHTML = `<strong>${document.getElementById('sender-name').value}:</strong> <p>${msg}</p>`;
-            document.getElementById('comments-list').prepend(div);
-            document.getElementById('sender-msg').value = "";
-        }
-
-        function toggleTheme() { document.body.classList.toggle('dark-mode'); }
-    </script>
+    init();
+</script>
 </body>
-                                                                    </html>
+    </html>
