@@ -8,33 +8,346 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap');
-        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
+        body { font-family: 'Tajawal', sans-serif; background-color: #f1f5f9; overflow-x: hidden; }
+        .modal { display: none; position: fixed; z-index: 100; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
         .active-modal { display: flex !important; }
-        .product-card:hover { transform: translateY(-5px); transition: 0.3s; }
-        .itun-coin { color: #f59e0b; font-weight: bold; }
+        .page-section { display: none; min-height: 80vh; }
+        .active-section { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Game Styles */
+        #gameCanvas { background: #fff; border-bottom: 2px solid #333; display: block; margin: 0 auto; max-width: 100%; touch-action: none; }
+        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 1000; display: none; }
     </style>
 </head>
-<body class="pb-20">
+<body class="pb-24">
 
-<!-- شاشة الترحيب (تظهر أول مرة فقط) -->
-<div id="welcomeModal" class="modal active-modal items-center justify-center">
-    <div class="bg-white p-8 rounded-2xl shadow-2xl w-96 text-center">
-        <h2 class="text-2xl font-bold mb-4">مرحباً بك في متجرنا</h2>
-        <input type="text" id="userNameInput" placeholder="أدخل اسمك الكريم" class="w-full border p-3 rounded-lg mb-4 text-right">
-        <button onclick="saveUser()" class="bg-blue-600 text-white px-6 py-2 rounded-lg w-full font-bold">دخول المتجر</button>
+<!-- نظام التنبيهات الداخلي -->
+<div id="toast" class="toast bg-black text-white px-6 py-3 rounded-full shadow-2xl items-center gap-3">
+    <span id="toastMessage"></span>
+</div>
+
+<!-- شاشة الترحيب -->
+<div id="welcomeModal" class="modal active-modal items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md text-center">
+        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-user-tie text-3xl text-blue-600"></i>
+        </div>
+        <h2 class="text-2xl font-bold mb-2">مرحباً بك في AB9</h2>
+        <p class="text-gray-500 mb-6">يرجى إدخال اسمك لتخصيص تجربتك</p>
+        <input type="text" id="userNameInput" placeholder="اسم المستخدم" class="w-full border-2 border-gray-100 p-4 rounded-xl mb-4 text-center outline-none focus:border-blue-500 transition">
+        <button onclick="saveUser()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl w-full font-bold shadow-lg transition">دخول المتجر</button>
     </div>
 </div>
 
-<!-- شريط الرأس -->
-<nav class="bg-white shadow-sm sticky top-0 z-50 p-4">
+<!-- Header -->
+<nav class="bg-white shadow-md sticky top-0 z-40 p-4">
     <div class="container mx-auto flex justify-between items-center">
+        <div class="flex flex-col">
+            <span class="text-xs text-gray-400">مرحباً، <span id="displayName" class="text-blue-600 font-bold">زائر</span></span>
+            <h1 class="text-xl font-black tracking-tighter">AB9 STORE</h1>
+        </div>
         <div class="flex items-center gap-4">
-            <h1 class="text-2xl font-black text-blue-600">AB9 STORE</h1>
-            <div class="hidden md:block bg-gray-100 rounded-full px-4 py-2">
-                <i class="fas fa-search text-gray-400"></i>
-                <input type="text" placeholder="ابحث عن منتج..." class="bg-transparent outline-none mr-2">
+            <div class="bg-green-50 px-3 py-1 rounded-lg text-center">
+                <p class="text-[10px] text-green-600 font-bold">المحفظة</p>
+                <p class="font-bold text-green-700 text-sm"><span id="userBalance">0</span> ﷼</p>
             </div>
+            <div class="bg-purple-50 px-3 py-1 rounded-lg text-center">
+                <p class="text-[10px] text-purple-600 font-bold">نقاط</p>
+                <p class="font-bold text-purple-700 text-sm"><span id="userPoints">0</span></p>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content Area -->
+<main class="container mx-auto p-4">
+    
+    <!-- قسم الرئيسية -->
+    <section id="homeSection" class="page-section active-section">
+        <div class="bg-blue-600 rounded-3xl p-6 text-white mb-6 relative overflow-hidden shadow-xl">
+            <div class="relative z-10">
+                <h2 class="text-2xl font-bold mb-2">اشحن محفظتك الآن</h2>
+                <p class="text-blue-100 text-sm mb-4">استمتع بتجربة تسوق سريعة وآمنة</p>
+                <div class="flex gap-2">
+                    <input type="number" id="depositAmount" placeholder="المبلغ" class="text-black p-3 rounded-xl w-24 outline-none">
+                    <button onclick="depositMoney()" class="bg-white text-blue-600 px-6 py-3 rounded-xl font-bold">إيداع</button>
+                </div>
+            </div>
+            <i class="fas fa-wallet absolute -left-4 -bottom-4 text-8xl text-blue-500 opacity-30"></i>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <i class="fas fa-coins text-yellow-500 mb-2"></i>
+                <h4 class="font-bold text-sm">عملة E-TUN</h4>
+                <p class="text-[10px] text-gray-500 mb-2">1 عملة = 5 ريال</p>
+                <button onclick="buyItun()" class="w-full bg-yellow-500 text-white py-2 rounded-lg text-xs font-bold">تحويل</button>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <i class="fas fa-gift text-red-500 mb-2"></i>
+                <h4 class="font-bold text-sm">هدية اليوم</h4>
+                <p class="text-[10px] text-gray-500 mb-2">استبدل نقاطك</p>
+                <button onclick="showToast('قريباً: متجر الهدايا!')" class="w-full bg-red-500 text-white py-2 rounded-lg text-xs font-bold">قريباً</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم العروض (المنتجات) -->
+    <section id="offersSection" class="page-section">
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+            <span class="w-2 h-8 bg-blue-600 rounded-full"></span>
+            أحدث العروض الرقمية
+        </h2>
+        <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- المنتجات تولد هنا -->
+        </div>
+    </section>
+
+    <!-- قسم الألعاب (الديناصور) -->
+    <section id="gamesSection" class="page-section">
+        <div class="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 text-center">
+            <h2 class="text-xl font-bold mb-2">لعبة الديناصور السريع 🦖</h2>
+            <p class="text-sm text-gray-500 mb-4">اقفز فوق الصبار لتجمع النقاط! (كل 100 نقطة باللعبة = 10 نقاط في المتجر)</p>
+            
+            <div class="relative inline-block border-4 border-gray-800 rounded-xl overflow-hidden mb-4">
+                <canvas id="gameCanvas" width="600" height="150"></canvas>
+                <div id="gameOverlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white">
+                    <p class="mb-2 font-bold">اضغط لبدء اللعب</p>
+                    <button onclick="startGame()" class="bg-green-500 p-4 rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+                        <i class="fas fa-play text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400">استخدم "المسافة" للقفز على الكمبيوتر أو المس الشاشة</p>
+        </div>
+    </section>
+</main>
+
+<!-- شريط التنقل السفلي -->
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-3 z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+    <button onclick="showPage('home')" class="nav-btn flex flex-col items-center gap-1 text-blue-600" id="btn-home">
+        <i class="fas fa-home text-xl"></i>
+        <span class="text-[10px] font-bold">الرئيسية</span>
+    </button>
+    <button onclick="showPage('offers')" class="nav-btn flex flex-col items-center gap-1 text-gray-400" id="btn-offers">
+        <i class="fas fa-tag text-xl"></i>
+        <span class="text-[10px] font-bold">العروض</span>
+    </button>
+    <button onclick="showPage('games')" class="nav-btn flex flex-col items-center gap-1 text-gray-400" id="btn-games">
+        <i class="fas fa-gamepad text-xl"></i>
+        <span class="text-[10px] font-bold">الألعاب</span>
+    </button>
+    <button onclick="toggleCart()" class="flex flex-col items-center gap-1 text-gray-400 relative">
+        <i class="fas fa-shopping-basket text-xl"></i>
+        <span class="text-[10px] font-bold">السلة</span>
+        <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+    </button>
+</div>
+
+<!-- Modal: السلة -->
+<div id="cartModal" class="modal items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold">حقيبة المشتريات</h3>
+            <button onclick="toggleCart()" class="text-gray-400"><i class="fas fa-times-circle text-2xl"></i></button>
+        </div>
+        <div id="cartItems" class="space-y-4 max-h-64 overflow-y-auto mb-6"></div>
+        <div class="border-t pt-4">
+            <div class="flex justify-between mb-4">
+                <span class="text-gray-500">الإجمالي المستحق:</span>
+                <span class="text-xl font-bold text-blue-600"><span id="cartTotal">0</span> ريال</span>
+            </div>
+            <button onclick="processPayment()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg">تأكيد الدفع</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // الإعدادات الأساسية
+    let balance = 0, points = 0, cart = [];
+    const products = [
+        { id: 1, name: "آيفون 15 برو", price: 4200, img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=300" },
+        { id: 2, name: "ماك بوك إير M3", price: 5400, img: "https://images.unsplash.com/photo-1517336712461-481bf488d78a?w=300" },
+        { id: 3, name: "ساعة ذكية S9", price: 1500, img: "https://images.unsplash.com/photo-1544117518-2b47648f3b2d?w=300" },
+        { id: 4, name: "سماعات عازلة للصوت", price: 800, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" }
+    ];
+
+    // نظام التنبيهات
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMessage').innerText = msg;
+        toast.style.display = 'flex';
+        setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    // التنقل بين الصفحات
+    function showPage(pageId) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+        document.getElementById(pageId + 'Section').classList.add('active-section');
+        
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.replace('text-blue-600', 'text-gray-400'));
+        document.getElementById('btn-' + pageId).classList.replace('text-gray-400', 'text-blue-600');
+    }
+
+    // إدارة المستخدم
+    function saveUser() {
+        const name = document.getElementById('userNameInput').value;
+        if(name.trim()) {
+            document.getElementById('displayName').innerText = name;
+            document.getElementById('welcomeModal').classList.remove('active-modal');
+            showToast(`أهلاً بك ${name} في متجرنا!`);
+        }
+    }
+
+    // المحفظة
+    function depositMoney() {
+        const amt = parseInt(document.getElementById('depositAmount').value);
+        if(amt > 0) {
+            balance += amt;
+            updateUI();
+            showToast(`تم إضافة ${amt} ريال لمحفظتك`);
+            document.getElementById('depositAmount').value = '';
+        }
+    }
+
+    function buyItun() {
+        if(balance >= 5) {
+            balance -= 5;
+            points += 20;
+            updateUI();
+            showToast("تم تحويل 5 ريال إلى 20 نقطة");
+        } else {
+            showToast("الرصيد غير كافٍ!");
+        }
+    }
+
+    // المتجر والسلة
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = products.map(p => `
+            <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100">
+                <img src="${p.img}" class="w-full h-32 object-contain rounded-xl mb-3">
+                <h3 class="font-bold text-sm truncate">${p.name}</h3>
+                <p class="text-blue-600 font-bold text-sm mb-3">${p.price} ريال</p>
+                <button onclick="addToCart(${p.id})" class="w-full bg-gray-50 text-blue-600 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 hover:text-white transition">إضافة</button>
+            </div>
+        `).join('');
+    }
+
+    function addToCart(id) {
+        const product = products.find(p => p.id === id);
+        cart.push(product);
+        updateUI();
+        showToast("تمت الإضافة للسلة");
+    }
+
+    function toggleCart() {
+        document.getElementById('cartModal').classList.toggle('active-modal');
+        renderCart();
+    }
+
+    function renderCart() {
+        const container = document.getElementById('cartItems');
+        let total = 0;
+        container.innerHTML = cart.map((item, index) => {
+            total += item.price;
+            return `
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
+                    <span class="text-sm font-bold">${item.name}</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-blue-600 text-sm font-bold">${item.price} ﷼</span>
+                        <button onclick="cart.splice(${index},1); updateUI(); renderCart();" class="text-red-400"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('cartTotal').innerText = total;
+    }
+
+    function processPayment() {
+        const total = parseInt(document.getElementById('cartTotal').innerText);
+        if(total === 0) return;
+        if(balance >= total) {
+            balance -= total;
+            points += Math.floor(total / 10);
+            cart = [];
+            updateUI();
+            toggleCart();
+            showToast("تمت عملية الشراء بنجاح! 🎉");
+        } else {
+            showToast("رصيدك لا يكفي، اشحن المحفظة!");
+        }
+    }
+
+    function updateUI() {
+        document.getElementById('userBalance').innerText = balance;
+        document.getElementById('userPoints').innerText = points;
+        document.getElementById('cartCount').innerText = cart.length;
+    }
+
+    // --- محرك لعبة الديناصور ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    let gameActive = false, score = 0;
+    let dino = { x: 50, y: 110, w: 40, h: 40, dy: 0, jump: -12, grounded: true };
+    let obstacles = [];
+
+    function startGame() {
+        document.getElementById('gameOverlay').style.display = 'none';
+        gameActive = true;
+        score = 0;
+        obstacles = [];
+        animateGame();
+    }
+
+    function animateGame() {
+        if(!gameActive) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Gravity & Movement
+        dino.dy += 0.8;
+        dino.y += dino.dy;
+        if(dino.y > 110) { dino.y = 110; dino.grounded = true; }
+
+        // Draw Dino
+        ctx.font = "40px Arial";
+        ctx.fillText("🦖", dino.x, dino.y);
+
+        // Obstacles
+        if(Math.random() < 0.02) obstacles.push({ x: 600, w: 20, h: 40 });
+        obstacles.forEach((obs, i) => {
+            obs.x -= 6;
+            ctx.font = "30px Arial";
+            ctx.fillText("🌵", obs.x, 140);
+            
+            // Collision
+            if(obs.x < dino.x + 30 && obs.x + 20 > dino.x && dino.y > 100) {
+                gameActive = false;
+                document.getElementById('gameOverlay').style.display = 'flex';
+                let earned = Math.floor(score / 10);
+                points += earned;
+                updateUI();
+                showToast(`انتهت اللعبة! حصلت على ${earned} نقطة متجر.`);
+            }
+        });
+        obstacles = obstacles.filter(o => o.x > -50);
+
+        score++;
+        ctx.fillStyle = "black";
+        ctx.font = "16px Tajawal";
+        ctx.fillText("النقاط: " + score, 10, 25);
+        
+        requestAnimationFrame(animateGame);
+    }
+
+    window.addEventListener('keydown', (e) => { if(e.code === 'Space' && dino.grounded) { dino.dy = dino.jump; dino.grounded = false; } });
+    canvas.addEventListener('touchstart', () => { if(dino.grounded) { dino.dy = dino.jump; dino.grounded = false; } });
+
+    renderProducts();
+</script>
+</body>
+                    </html>            </div>
         </div>
         <div class="flex items-center gap-6">
             <div class="text-center">
