@@ -2,349 +2,237 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر AB9 الاحترافي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>متجر AB9 الـمـطـور | 2026 - الإصدار المتطور</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap');
-        body { font-family: 'Tajawal', sans-serif; background-color: #f1f5f9; overflow-x: hidden; }
-        .modal { display: none; position: fixed; z-index: 100; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;900&display=swap');
+        body { font-family: 'Tajawal', sans-serif; background: #f1f5f9; color: #0f172a; }
+        .page-section { display: none; }
+        .active-section { display: block; animation: fadeIn 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-nav { background: rgba(255,255,255,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(0,0,0,0.03); }
+        .modal { display: none; position: fixed; z-index: 100; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1rem; }
         .active-modal { display: flex !important; }
-        .page-section { display: none; min-height: 80vh; }
-        .active-section { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Game Styles */
-        #gameCanvas { background: #fff; border-bottom: 2px solid #333; display: block; margin: 0 auto; max-width: 100%; touch-action: none; }
-        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 1000; display: none; }
+        .card-hover { transition: all 0.25s ease; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 25px 30px -12px rgba(0,0,0,0.15); }
+        .order-item { transition: 0.2s; }
+        .order-item:hover { background-color: #f8fafc; transform: scale(0.99); }
+        .avatar-gallery img { transition: 0.2s; cursor: pointer; border: 3px solid transparent; }
+        .avatar-gallery img:hover, .avatar-selected { border-color: #2563eb; border-radius: 2rem; transform: scale(1.05); }
     </style>
 </head>
-<body class="pb-24">
+<body class="pb-28">
 
-<!-- نظام التنبيهات الداخلي -->
-<div id="toast" class="toast bg-black text-white px-6 py-3 rounded-full shadow-2xl items-center gap-3">
-    <span id="toastMessage"></span>
+<div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[200] hidden bg-white border-r-4 border-blue-600 shadow-2xl px-6 py-4 rounded-xl items-center gap-3 transition-all">
+    <i class="fas fa-check-circle text-blue-600"></i>
+    <span id="toastMessage" class="font-bold text-sm"></span>
 </div>
 
-<!-- شاشة الترحيب -->
-<div id="welcomeModal" class="modal active-modal items-center justify-center p-4">
-    <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md text-center">
-        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-user-tie text-3xl text-blue-600"></i>
-        </div>
-        <h2 class="text-2xl font-bold mb-2">مرحباً بك في AB9</h2>
-        <p class="text-gray-500 mb-6">يرجى إدخال اسمك لتخصيص تجربتك</p>
-        <input type="text" id="userNameInput" placeholder="اسم المستخدم" class="w-full border-2 border-gray-100 p-4 rounded-xl mb-4 text-center outline-none focus:border-blue-500 transition">
-        <button onclick="saveUser()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl w-full font-bold shadow-lg transition">دخول المتجر</button>
+<!-- ترحيب -->
+<div id="welcomeModal" class="modal active-modal">
+    <div class="bg-white p-10 rounded-[3rem] w-full max-w-md text-center shadow-2xl">
+        <div class="text-6xl mb-3">⚡</div>
+        <h2 class="text-3xl font-black mb-6 text-blue-600">AB9 المتجر الذكي</h2>
+        <input type="text" id="userNameInput" placeholder="أدخل اسمك الكريم" class="w-full bg-gray-50 border-2 border-gray-200 p-4 rounded-2xl mb-4 text-center outline-none focus:border-blue-500">
+        <button onclick="saveUser()" class="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl w-full font-bold shadow-lg">دخول</button>
     </div>
 </div>
 
-<!-- Header -->
-<nav class="bg-white shadow-md sticky top-0 z-40 p-4">
-    <div class="container mx-auto flex justify-between items-center">
-        <div class="flex flex-col">
-            <span class="text-xs text-gray-400">مرحباً، <span id="displayName" class="text-blue-600 font-bold">زائر</span></span>
-            <h1 class="text-xl font-black tracking-tighter">AB9 STORE</h1>
+<!-- القمة -->
+<nav class="glass-nav sticky top-0 z-50 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md"><i class="fas fa-microchip"></i></div>
+            <h1 class="text-xl font-black tracking-tight">AB9 <span class="text-blue-600">طور 2026</span></h1>
         </div>
-        <div class="flex items-center gap-4">
-            <div class="bg-green-50 px-3 py-1 rounded-lg text-center">
-                <p class="text-[10px] text-green-600 font-bold">المحفظة</p>
-                <p class="font-bold text-green-700 text-sm"><span id="userBalance">0</span> ﷼</p>
-            </div>
-            <div class="bg-purple-50 px-3 py-1 rounded-lg text-center">
-                <p class="text-[10px] text-purple-600 font-bold">نقاط</p>
-                <p class="font-bold text-purple-700 text-sm"><span id="userPoints">0</span></p>
-            </div>
+        <div class="flex gap-5">
+            <div><p class="text-[10px] text-gray-400 font-bold">الرصيد</p><p class="font-black text-blue-600"><span id="userBalance">0</span> ر.س</p></div>
+            <div><p class="text-[10px] text-gray-400 font-bold">آيتون</p><p class="font-black text-amber-500"><span id="userItuns">0</span> <i class="fas fa-star text-[9px]"></i></p></div>
         </div>
     </div>
 </nav>
 
-<!-- Main Content Area -->
-<main class="container mx-auto p-4">
-    
-    <!-- قسم الرئيسية -->
+<main class="max-w-6xl mx-auto p-5">
+    <!-- الصفحة الرئيسية -->
     <section id="homeSection" class="page-section active-section">
-        <div class="bg-blue-600 rounded-3xl p-6 text-white mb-6 relative overflow-hidden shadow-xl">
-            <div class="relative z-10">
-                <h2 class="text-2xl font-bold mb-2">اشحن محفظتك الآن</h2>
-                <p class="text-blue-100 text-sm mb-4">استمتع بتجربة تسوق سريعة وآمنة</p>
-                <div class="flex gap-2">
-                    <input type="number" id="depositAmount" placeholder="المبلغ" class="text-black p-3 rounded-xl w-24 outline-none">
-                    <button onclick="depositMoney()" class="bg-white text-blue-600 px-6 py-3 rounded-xl font-bold">إيداع</button>
-                </div>
+        <div class="bg-white rounded-[2rem] p-8 shadow-xl border mb-8 flex flex-col md:flex-row items-center gap-8">
+            <div class="flex-1">
+                <h2 class="text-4xl font-black mb-3">متجر <span class="text-blue-600">الجيل القادم</span></h2>
+                <p class="text-gray-500 mb-5">أسرع طريقة للشحن واستمتع بمنتجات حصرية مع نقاط ولاء مضاعفة.</p>
+                <div class="flex gap-3"><input type="number" id="depositAmount" placeholder="المبلغ" class="bg-gray-100 p-4 rounded-2xl w-32 outline-none font-bold"><button onclick="depositMoney()" class="bg-blue-600 text-white px-7 py-4 rounded-2xl font-bold shadow">إيداع</button></div>
             </div>
-            <i class="fas fa-wallet absolute -left-4 -bottom-4 text-8xl text-blue-500 opacity-30"></i>
+            <div class="w-full md:w-1/3 bg-slate-800 rounded-2xl p-5 text-white text-center"><i class="fas fa-coins text-amber-400 text-3xl mb-2"></i><p class="text-sm">5 ريال = 1 آيتون</p><button onclick="convertMoneyToItun()" class="mt-2 bg-amber-500 w-full py-2 rounded-xl font-bold">تحويل</button></div>
         </div>
-
-        <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <i class="fas fa-coins text-yellow-500 mb-2"></i>
-                <h4 class="font-bold text-sm">عملة E-TUN</h4>
-                <p class="text-[10px] text-gray-500 mb-2">1 عملة = 5 ريال</p>
-                <button onclick="buyItun()" class="w-full bg-yellow-500 text-white py-2 rounded-lg text-xs font-bold">تحويل</button>
-            </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <i class="fas fa-gift text-red-500 mb-2"></i>
-                <h4 class="font-bold text-sm">هدية اليوم</h4>
-                <p class="text-[10px] text-gray-500 mb-2">استبدل نقاطك</p>
-                <button onclick="showToast('قريباً: متجر الهدايا!')" class="w-full bg-red-500 text-white py-2 rounded-lg text-xs font-bold">قريباً</button>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-4">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-3xl"><i class="fas fa-truck-fast text-blue-600 text-2xl"></i><h3 class="font-black mt-2">توصيل فوري</h3><p class="text-sm text-gray-500">لجميع مدن المملكة</p></div>
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-3xl"><i class="fas fa-gamepad text-amber-600 text-2xl"></i><h3 class="font-black mt-2">نظام المكافآت</h3><p class="text-sm text-gray-500">اكسب نقاط من اللعب والشراء</p></div>
         </div>
     </section>
 
-    <!-- قسم العروض (المنتجات) -->
+    <!-- العروض + منتجات (بدون صور نسائية) -->
     <section id="offersSection" class="page-section">
-        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-            <span class="w-2 h-8 bg-blue-600 rounded-full"></span>
-            أحدث العروض الرقمية
-        </h2>
-        <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- المنتجات تولد هنا -->
+        <h2 class="text-2xl font-black mb-6 flex gap-2"><span class="w-2 h-8 bg-blue-600 rounded-full"></span> أحدث التقنيات 2026</h2>
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    </section>
+
+    <!-- الملف الشخصي + الطلبات -->
+    <section id="profileSection" class="page-section">
+        <div class="max-w-3xl mx-auto bg-white rounded-[2.5rem] shadow-2xl overflow-hidden">
+            <div class="h-28 bg-gradient-to-r from-blue-700 to-indigo-800"></div>
+            <div class="px-8 pb-6 text-center relative">
+                <div class="relative -mt-14 inline-block"><img id="userImg" src="https://api.dicebear.com/7.x/bottts/svg?seed=AB9Pro" class="w-28 h-28 rounded-2xl bg-white p-1 shadow-xl border-4 border-white"><button onclick="openAvatarGallery()" class="absolute bottom-0 right-1 bg-blue-600 text-white rounded-full w-8 h-8 text-xs shadow-md"><i class="fas fa-images"></i></button></div>
+                <h2 id="profName" class="text-2xl font-black mt-2">المستخدم</h2>
+                <p class="text-blue-500 text-sm mb-5">عضو فضي ⭐</p>
+                <div class="flex justify-between gap-4 mb-7"><div class="bg-gray-50 p-4 rounded-2xl w-full"><p class="text-gray-400 text-[11px]">النقاط</p><p class="font-black text-xl"><span id="userPoints">0</span></p></div><div class="bg-gray-50 p-4 rounded-2xl w-full"><p class="text-gray-400 text-[11px]">الآيتون</p><p class="font-black text-amber-500"><span id="userItunsProfile">0</span></p></div><div class="bg-gray-50 p-4 rounded-2xl w-full"><p class="text-gray-400 text-[11px]">طلباتي</p><p class="font-black text-indigo-600" id="ordersCount">0</p></div></div>
+                <button onclick="toggleEditModal()" class="bg-gray-100 w-full py-3 rounded-xl font-bold mb-5">✏️ تعديل الاسم</button>
+                
+                <!-- قائمة الطلبات المضافة -->
+                <div class="border-t pt-6 text-right">
+                    <h3 class="font-black text-xl mb-4 flex items-center gap-2"><i class="fas fa-receipt text-blue-600"></i> قائمة طلباتي</h3>
+                    <div id="ordersList" class="space-y-3 max-h-64 overflow-y-auto p-1">
+                        <div class="text-center text-gray-400 py-5">لا توجد طلبات بعد، قم بشراء منتج وسيظهر هنا</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- قسم الألعاب (الديناصور) -->
+    <!-- لعبة الصبار (تم إصلاحها بالكامل) + متجر نقاط -->
     <section id="gamesSection" class="page-section">
-        <div class="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 text-center">
-            <h2 class="text-xl font-bold mb-2">لعبة الديناصور السريع 🦖</h2>
-            <p class="text-sm text-gray-500 mb-4">اقفز فوق الصبار لتجمع النقاط! (كل 100 نقطة باللعبة = 10 نقاط في المتجر)</p>
-            
-            <div class="relative inline-block border-4 border-gray-800 rounded-xl overflow-hidden mb-4">
-                <canvas id="gameCanvas" width="600" height="150"></canvas>
-                <div id="gameOverlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white">
-                    <p class="mb-2 font-bold">اضغط لبدء اللعب</p>
-                    <button onclick="startGame()" class="bg-green-500 p-4 rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
-                        <i class="fas fa-play text-xl"></i>
-                    </button>
-                </div>
+        <div class="bg-slate-900 rounded-[3rem] p-6 text-white">
+            <h2 class="text-3xl font-black text-center">🏆 تحدي الوادي السريع</h2>
+            <p class="text-center text-slate-300 mb-4">اقفز فوق الصبار، كل 150 نقطة = 5 ريال هدية!</p>
+            <canvas id="gameCanvas" width="800" height="220" class="w-full bg-gradient-to-b from-green-100 to-green-50 rounded-2xl mb-3" style="border-radius: 1.5rem;"></canvas>
+            <div class="flex justify-between items-center bg-black/30 p-4 rounded-2xl flex-wrap gap-2">
+                <div><span class="text-amber-300">🎮 النقاط: </span><span id="gameScoreDisplay" class="font-black text-xl">0</span></div>
+                <div><span class="text-green-300">💰 ربح اللعبة: </span><span id="gameRewardPoints" class="font-black">0</span> ر.س</div>
+                <button id="startGameBtn" onclick="resetAndStartGame()" class="bg-emerald-500 px-6 py-2 rounded-xl font-bold shadow-lg hover:bg-emerald-600 transition">🚀 ابدأ الجري</button>
+                <button onclick="convertGamePointsToMoney()" class="bg-amber-500 px-5 py-2 rounded-xl font-bold text-sm">🔄 تحويل النقاط إلى رصيد</button>
             </div>
-            <p class="text-xs text-gray-400">استخدم "المسافة" للقفز على الكمبيوتر أو المس الشاشة</p>
         </div>
     </section>
 </main>
 
-<!-- شريط التنقل السفلي -->
-<div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-3 z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
-    <button onclick="showPage('home')" class="nav-btn flex flex-col items-center gap-1 text-blue-600" id="btn-home">
-        <i class="fas fa-home text-xl"></i>
-        <span class="text-[10px] font-bold">الرئيسية</span>
-    </button>
-    <button onclick="showPage('offers')" class="nav-btn flex flex-col items-center gap-1 text-gray-400" id="btn-offers">
-        <i class="fas fa-tag text-xl"></i>
-        <span class="text-[10px] font-bold">العروض</span>
-    </button>
-    <button onclick="showPage('games')" class="nav-btn flex flex-col items-center gap-1 text-gray-400" id="btn-games">
-        <i class="fas fa-gamepad text-xl"></i>
-        <span class="text-[10px] font-bold">الألعاب</span>
-    </button>
-    <button onclick="toggleCart()" class="flex flex-col items-center gap-1 text-gray-400 relative">
-        <i class="fas fa-shopping-basket text-xl"></i>
-        <span class="text-[10px] font-bold">السلة</span>
-        <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-    </button>
+<!-- التبويبات السفلية -->
+<div class="fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-lg bg-white/90 backdrop-blur-xl border border-gray-200 p-2 rounded-[3rem] flex justify-around shadow-2xl z-50">
+    <button onclick="showPage('home')" class="nav-btn text-blue-600 p-3" id="btn-home"><i class="fas fa-home text-xl"></i></button>
+    <button onclick="showPage('offers')" class="nav-btn text-gray-400 p-3" id="btn-offers"><i class="fas fa-store text-xl"></i></button>
+    <button onclick="showPage('games')" class="nav-btn text-gray-400 p-3" id="btn-games"><i class="fas fa-gamepad text-xl"></i></button>
+    <button onclick="showPage('profile')" class="nav-btn text-gray-400 p-3" id="btn-profile"><i class="fas fa-user text-xl"></i></button>
+    <div class="w-px h-8 bg-gray-200"></div>
+    <button onclick="toggleCart()" class="relative p-2"><i class="fas fa-shopping-cart text-xl"></i><span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-[11px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span></button>
 </div>
 
-<!-- Modal: السلة -->
-<div id="cartModal" class="modal items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold">حقيبة المشتريات</h3>
-            <button onclick="toggleCart()" class="text-gray-400"><i class="fas fa-times-circle text-2xl"></i></button>
-        </div>
-        <div id="cartItems" class="space-y-4 max-h-64 overflow-y-auto mb-6"></div>
-        <div class="border-t pt-4">
-            <div class="flex justify-between mb-4">
-                <span class="text-gray-500">الإجمالي المستحق:</span>
-                <span class="text-xl font-bold text-blue-600"><span id="cartTotal">0</span> ريال</span>
-            </div>
-            <button onclick="processPayment()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg">تأكيد الدفع</button>
-        </div>
-    </div>
+<!-- سلة الشراء -->
+<div id="cartModal" class="modal">
+    <div class="bg-white w-full max-w-3xl rounded-[2.5rem] flex flex-col md:flex-row overflow-hidden"><div class="p-6 flex-1"><h3 class="font-black text-xl mb-4">🛒 سلتك</h3><div id="cartItems" class="space-y-3 max-h-80 overflow-auto"></div><div class="mt-5 flex justify-between bg-blue-50 p-4 rounded-2xl"><span>الإجمالي</span><span class="font-black text-blue-700" id="cartTotal">0</span></div></div><div class="bg-gray-50 p-6 w-full md:w-72"><h4 class="font-bold">إتمام الشراء</h4><select id="citySelect" class="w-full border p-3 rounded-xl mt-2"><option>الرياض</option><option>جدة</option><option>الدمام</option></select><div class="flex mt-3"><span class="bg-gray-200 p-3 rounded-r-xl">+966</span><input id="phoneInput" maxlength="9" placeholder="5XXXXXXX" class="border p-3 rounded-l-xl w-full"></div><button onclick="processPayment()" class="bg-black text-white w-full py-4 rounded-2xl mt-5 font-bold">شراء الآن</button><button onclick="toggleCart()" class="text-gray-500 w-full mt-3 text-sm">إغلاق</button></div></div>
 </div>
+
+<!-- تعديل الاسم -->
+<div id="editProfileModal" class="modal"><div class="bg-white p-8 rounded-3xl w-80"><h3 class="font-black mb-4">تغيير الاسم</h3><input id="newName" class="border p-3 rounded-xl w-full"><button onclick="updateProfileName()" class="bg-blue-600 text-white w-full py-3 rounded-xl mt-4">حفظ</button><button onclick="toggleEditModal()" class="text-gray-400 w-full mt-2">إلغاء</button></div></div>
+
+<!-- معرض الصور الشخصية -->
+<div id="avatarGalleryModal" class="modal"><div class="bg-white p-6 rounded-3xl w-80"><h3 class="font-black text-center">اختر صورتك</h3><div id="avatarList" class="grid grid-cols-3 gap-3 my-4 avatar-gallery"></div><button onclick="closeAvatarGallery()" class="text-gray-500 w-full">إغلاق</button></div></div>
 
 <script>
-    // الإعدادات الأساسية
-    let balance = 0, points = 0, cart = [];
+    // ========== البيانات الأساسية والنظام ==========
+    let balance = 0, points = 0, ituns = 0, cart = [];
+    let userName = "مستشار AB9";
+    let ordersHistory = [];   // حفظ الطلبات للتطوير
+
+    // قائمة المنتجات (تم تغيير صورة الايفون إلى صورة جهاز عادي بدون بشر)
     const products = [
-        { id: 1, name: "آيفون 15 برو", price: 4200, img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=300" },
-        { id: 2, name: "ماك بوك إير M3", price: 5400, img: "https://images.unsplash.com/photo-1517336712461-481bf488d78a?w=300" },
-        { id: 3, name: "ساعة ذكية S9", price: 1500, img: "https://images.unsplash.com/photo-1544117518-2b47648f3b2d?w=300" },
-        { id: 4, name: "سماعات عازلة للصوت", price: 800, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" }
+        { id: 1, name: "بلايستيشن 6 برو", price: 3499, img: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400" },
+        { id: 2, name: "آيفون 17 برو ماكس", price: 5800, img: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400" },  // صورة ايفون فقط بدون نساء 
+        { id: 3, name: "نظارة الواقع الافتراضي XR", price: 2100, img: "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=400" },
+        { id: 4, name: "ساعة Garmin Epix", price: 1950, img: "https://images.unsplash.com/photo-1544117518-2b47648f3b2d?w=400" },
+        { id: 5, name: "سبيكة ذهب استثمارية", price: 2850, img: "https://images.unsplash.com/photo-1610375461246-83df8dfb39d7?w=400" },
+        { id: 6, name: "بطاقة AB9 المميزة", price: 500, img: "https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400" },
+        { id: 7, name: "لابتوب ROG Zephyrus G16", price: 8499, img: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400" },
+        { id: 8, name: "ماوس لاسلكي 8K Hz", price: 329, img: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400" },
+        { id: 9, name: "شاشة 4K 144Hz منحنية", price: 1799, img: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400" },
+        { id: 10, name: "سماعات ستوديو احترافية", price: 899, img: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400" }
     ];
 
-    // نظام التنبيهات
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        document.getElementById('toastMessage').innerText = msg;
-        toast.style.display = 'flex';
-        setTimeout(() => { toast.style.display = 'none'; }, 3000);
-    }
+    // قائمة الصور الشخصية (آمنة وبدون نساء)
+    const avatarGallery = [
+        "https://api.dicebear.com/7.x/bottts/svg?seed=CyberAB9", "https://api.dicebear.com/7.x/identicon/svg?seed=TechUser", "https://api.dicebear.com/7.x/adventurer/svg?seed=Khalid",
+        "https://api.dicebear.com/7.x/pixel-art/svg?seed=DinoRunner", "https://api.dicebear.com/7.x/avataaars/svg?seed=AB9Merchant", "https://api.dicebear.com/7.x/big-ears/svg?seed=FutureBuyer"
+    ];
 
-    // التنقل بين الصفحات
-    function showPage(pageId) {
-        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-        document.getElementById(pageId + 'Section').classList.add('active-section');
-        
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.replace('text-blue-600', 'text-gray-400'));
-        document.getElementById('btn-' + pageId).classList.replace('text-gray-400', 'text-blue-600');
-    }
-
-    // إدارة المستخدم
-    function saveUser() {
-        const name = document.getElementById('userNameInput').value;
-        if(name.trim()) {
-            document.getElementById('displayName').innerText = name;
-            document.getElementById('welcomeModal').classList.remove('active-modal');
-            showToast(`أهلاً بك ${name} في متجرنا!`);
-        }
-    }
-
-    // المحفظة
-    function depositMoney() {
-        const amt = parseInt(document.getElementById('depositAmount').value);
-        if(amt > 0) {
-            balance += amt;
-            updateUI();
-            showToast(`تم إضافة ${amt} ريال لمحفظتك`);
-            document.getElementById('depositAmount').value = '';
-        }
-    }
-
-    function buyItun() {
-        if(balance >= 5) {
-            balance -= 5;
-            points += 20;
-            updateUI();
-            showToast("تم تحويل 5 ريال إلى 20 نقطة");
-        } else {
-            showToast("الرصيد غير كافٍ!");
-        }
-    }
-
-    // المتجر والسلة
-    function renderProducts() {
-        const grid = document.getElementById('productsGrid');
-        grid.innerHTML = products.map(p => `
-            <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100">
-                <img src="${p.img}" class="w-full h-32 object-contain rounded-xl mb-3">
-                <h3 class="font-bold text-sm truncate">${p.name}</h3>
-                <p class="text-blue-600 font-bold text-sm mb-3">${p.price} ريال</p>
-                <button onclick="addToCart(${p.id})" class="w-full bg-gray-50 text-blue-600 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 hover:text-white transition">إضافة</button>
-            </div>
-        `).join('');
-    }
-
-    function addToCart(id) {
-        const product = products.find(p => p.id === id);
-        cart.push(product);
-        updateUI();
-        showToast("تمت الإضافة للسلة");
-    }
-
-    function toggleCart() {
-        document.getElementById('cartModal').classList.toggle('active-modal');
-        renderCart();
-    }
-
-    function renderCart() {
-        const container = document.getElementById('cartItems');
-        let total = 0;
-        container.innerHTML = cart.map((item, index) => {
-            total += item.price;
-            return `
-                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
-                    <span class="text-sm font-bold">${item.name}</span>
-                    <div class="flex items-center gap-3">
-                        <span class="text-blue-600 text-sm font-bold">${item.price} ﷼</span>
-                        <button onclick="cart.splice(${index},1); updateUI(); renderCart();" class="text-red-400"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-        document.getElementById('cartTotal').innerText = total;
-    }
-
-    function processPayment() {
-        const total = parseInt(document.getElementById('cartTotal').innerText);
-        if(total === 0) return;
-        if(balance >= total) {
-            balance -= total;
-            points += Math.floor(total / 10);
-            cart = [];
-            updateUI();
-            toggleCart();
-            showToast("تمت عملية الشراء بنجاح! 🎉");
-        } else {
-            showToast("رصيدك لا يكفي، اشحن المحفظة!");
-        }
-    }
-
-    function updateUI() {
-        document.getElementById('userBalance').innerText = balance;
-        document.getElementById('userPoints').innerText = points;
-        document.getElementById('cartCount').innerText = cart.length;
-    }
-
-    // --- محرك لعبة الديناصور ---
+    // Helper Functions
+    function showToast(msg) { let t = document.getElementById('toast'); document.getElementById('toastMessage').innerText = msg; t.classList.remove('hidden'); t.classList.add('flex'); setTimeout(() => { t.classList.add('hidden'); t.classList.remove('flex'); }, 2800); }
+    function updateUI() { document.getElementById('userBalance').innerText = balance; document.getElementById('userItuns').innerText = ituns; document.getElementById('userPoints').innerText = points; document.getElementById('userItunsProfile').innerText = ituns; document.getElementById('cartCount').innerText = cart.length; }
+    function showPage(pageId) { document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-section')); document.getElementById(pageId + 'Section').classList.add('active-section'); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'text-gray-400')); document.querySelectorAll('.nav-btn').forEach(b => b.classList.add('text-gray-400')); document.getElementById('btn-' + pageId).classList.remove('text-gray-400'); document.getElementById('btn-' + pageId).classList.add('text-blue-600'); }
+    
+    function saveUser() { let name = document.getElementById('userNameInput').value.trim(); if(name) { userName = name; document.getElementById('profName').innerText = name; document.getElementById('welcomeModal').classList.remove('active-modal'); showToast(`مرحبًا ${name}`); } else showToast("أدخل الاسم"); }
+    function depositMoney() { let amt = parseInt(document.getElementById('depositAmount').value); if(amt>0) { balance+=amt; updateUI(); showToast(`تم إيداع ${amt} ريال`); document.getElementById('depositAmount').value='';} else showToast("مبلغ غير صالح");}
+    function convertMoneyToItun() { if(balance>=5) { balance-=5; ituns+=1; updateUI(); showToast("تم تحويل 5 ريال إلى آيتون"); } else showToast("رصيد غير كافٍ");}
+    
+    function renderProducts() { let grid = document.getElementById('productsGrid'); grid.innerHTML = products.map(p => `<div class="bg-white rounded-2xl p-5 shadow-md hover:shadow-xl transition-all"><img src="${p.img}" class="h-44 w-full object-contain rounded-xl mb-3" onerror="this.src='https://placehold.co/400x300?text=AB9'"><h3 class="font-black">${p.name}</h3><p class="text-blue-600 font-bold text-xl">${p.price} ر.س</p><button onclick="addToCart(${p.id})" class="mt-2 w-full bg-gray-900 text-white py-2 rounded-xl font-bold">➕ أضف للسلة</button></div>`).join('');}
+    function addToCart(id) { let product = products.find(p=>p.id===id); if(product) { cart.push(product); updateUI(); showToast(`📦 تمت إضافة ${product.name}`); } }
+    function toggleCart() { document.getElementById('cartModal').classList.toggle('active-modal'); renderCart(); }
+    function renderCart() { let container = document.getElementById('cartItems'); let total=0; if(cart.length===0) { container.innerHTML='<div class="text-center text-gray-400">السلة فارغة</div>'; document.getElementById('cartTotal').innerText='0'; return; } container.innerHTML = cart.map((item,i)=> { total+=item.price; return `<div class="flex justify-between bg-gray-50 p-3 rounded-xl"><span>${item.name}</span><button onclick="removeFromCart(${i})" class="text-red-500"><i class="fas fa-trash"></i></button></div>`; }).join(''); document.getElementById('cartTotal').innerText=total; }
+    function removeFromCart(i) { cart.splice(i,1); renderCart(); updateUI(); }
+    function processPayment() { let phone = document.getElementById('phoneInput').value; let total = parseInt(document.getElementById('cartTotal').innerText); if(cart.length===0) return showToast("أضف منتجات"); if(phone.length!==9) return showToast("رقم جوال 9 أرقام"); if(balance<total) return showToast("الرصيد غير كافٍ"); balance-=total; let gainedPoints = Math.floor(total/10); points+= gainedPoints; 
+        // حفظ الطلب في السجل
+        let orderItems = cart.map(i=>i.name).join(', ');
+        ordersHistory.unshift({ id: Date.now(), items: orderItems, total: total, date: new Date().toLocaleString('ar-SA') });
+        updateOrdersListUI();
+        cart = []; updateUI(); toggleCart(); showToast(`تم الشراء بنجاح +${gainedPoints} نقطة`); document.getElementById('phoneInput').value=''; }
+    
+    function updateOrdersListUI() { let container = document.getElementById('ordersList'); let countSpan = document.getElementById('ordersCount'); if(ordersHistory.length===0) { container.innerHTML='<div class="text-center text-gray-400 py-4">📭 لم تقم بأي طلب بعد</div>'; countSpan.innerText='0'; return; } countSpan.innerText=ordersHistory.length; container.innerHTML = ordersHistory.map(order => `<div class="order-item bg-white border p-4 rounded-2xl shadow-sm"><div class="flex justify-between"><span class="font-bold text-blue-700">طلب #${order.id.toString().slice(-5)}</span><span class="text-xs text-gray-400">${order.date}</span></div><p class="text-sm mt-1">${order.items.substring(0,60)}</p><div class="flex justify-between mt-2"><span class="bg-green-100 px-2 py-1 rounded-full text-xs">✓ مكتمل</span><span class="font-black">${order.total} ر.س</span></div></div>`).join(''); }
+    
+    // تعديل الملف
+    function toggleEditModal() { document.getElementById('editProfileModal').classList.toggle('active-modal'); }
+    function updateProfileName() { let newName = document.getElementById('newName').value.trim(); if(newName) { userName=newName; document.getElementById('profName').innerText=newName; toggleEditModal(); showToast("تم تحديث الاسم"); } }
+    function openAvatarGallery() { let modal = document.getElementById('avatarGalleryModal'); let listDiv = document.getElementById('avatarList'); listDiv.innerHTML = avatarGallery.map(url => `<img src="${url}" class="w-20 h-20 rounded-2xl shadow cursor-pointer hover:scale-105 transition" onclick="setAvatar('${url}')">`).join(''); modal.classList.add('active-modal'); }
+    function setAvatar(url) { document.getElementById('userImg').src = url; closeAvatarGallery(); showToast("تغيرت الصورة"); }
+    function closeAvatarGallery() { document.getElementById('avatarGalleryModal').classList.remove('active-modal'); }
+    
+    // ============= لعبة الصبار (إصلاح كامل + متجر نقاط داخلي) =============
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-    let gameActive = false, score = 0;
-    let dino = { x: 50, y: 110, w: 40, h: 40, dy: 0, jump: -12, grounded: true };
+    let gameRunning = false, frameReq;
+    let dinoY = 130, dinoVel = 0, gravity = 0.8, isJumping = false;
     let obstacles = [];
-
-    function startGame() {
-        document.getElementById('gameOverlay').style.display = 'none';
-        gameActive = true;
-        score = 0;
-        obstacles = [];
-        animateGame();
+    let gameFrame = 0;
+    let currentGameScore = 0;
+    let gamePointsBalance = 0;   // النقاط المؤقتة التي يمكن تحويلها لرصيد حقيقي
+    
+    function resetAndStartGame() { if(gameRunning) cancelAnimationFrame(frameReq); gameRunning = true; dinoY = 130; dinoVel = 0; obstacles = []; gameFrame = 0; currentGameScore = 0; gamePointsBalance = 0; document.getElementById('gameScoreDisplay').innerText = "0"; document.getElementById('gameRewardPoints').innerText = "0"; updateGameCanvas(); animateGame(); }
+    
+    function updateGameCanvas() { if(!canvas) return; ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = "#d9f0b0"; ctx.fillRect(0,0,canvas.width, canvas.height); ctx.fillStyle = "#5c4033"; ctx.fillRect(0,170,canvas.width,8); ctx.font = "44px 'Segoe UI'"; ctx.fillStyle = "#2c3e2f"; ctx.fillText("🦖", 60, dinoY+12); for(let o of obstacles) { ctx.fillStyle = "#4b6a3b"; ctx.fillText("🌵", o.x, 172); } ctx.fillStyle = "#1e293b"; ctx.font = "bold 20px Tajawal"; ctx.fillText(`🏆 ${currentGameScore}`, 20, 40); }
+    
+    function animateGame() { if(!gameRunning) return;
+        // تحديث الفيزياء
+        dinoVel += gravity; dinoY += dinoVel; if(dinoY >= 130) { dinoY = 130; dinoVel = 0; isJumping = false; } if(dinoY < 20) dinoY = 20;
+        // إضافة عوائق
+        if(gameFrame % 70 === 0 && Math.random()<0.5) obstacles.push({ x: canvas.width-20, width: 30 });
+        for(let i=0;i<obstacles.length;i++) { obstacles[i].x -= 7; if(obstacles[i].x < -40) obstacles.splice(i,1); }
+        // التصادم
+        for(let o of obstacles) { if(o.x < 95 && o.x+25 > 60 && dinoY+30 > 150) { gameRunning = false; if(frameReq) cancelAnimationFrame(frameReq); document.getElementById('startGameBtn').innerText = '🔄 العب مجدداً'; showToast(`انتهت اللعبة! ربحت ${gamePointsBalance} نقطة مكافأة. حولها إلى رصيد!`); return; } }
+        currentGameScore++; gamePointsBalance = Math.floor(currentGameScore / 80); document.getElementById('gameScoreDisplay').innerText = currentGameScore; document.getElementById('gameRewardPoints').innerText = gamePointsBalance;
+        gameFrame++; updateGameCanvas(); frameReq = requestAnimationFrame(animateGame);
     }
-
-    function animateGame() {
-        if(!gameActive) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Gravity & Movement
-        dino.dy += 0.8;
-        dino.y += dino.dy;
-        if(dino.y > 110) { dino.y = 110; dino.grounded = true; }
-
-        // Draw Dino
-        ctx.font = "40px Arial";
-        ctx.fillText("🦖", dino.x, dino.y);
-
-        // Obstacles
-        if(Math.random() < 0.02) obstacles.push({ x: 600, w: 20, h: 40 });
-        obstacles.forEach((obs, i) => {
-            obs.x -= 6;
-            ctx.font = "30px Arial";
-            ctx.fillText("🌵", obs.x, 140);
-            
-            // Collision
-            if(obs.x < dino.x + 30 && obs.x + 20 > dino.x && dino.y > 100) {
-                gameActive = false;
-                document.getElementById('gameOverlay').style.display = 'flex';
-                let earned = Math.floor(score / 10);
-                points += earned;
-                updateUI();
-                showToast(`انتهت اللعبة! حصلت على ${earned} نقطة متجر.`);
-            }
-        });
-        obstacles = obstacles.filter(o => o.x > -50);
-
-        score++;
-        ctx.fillStyle = "black";
-        ctx.font = "16px Tajawal";
-        ctx.fillText("النقاط: " + score, 10, 25);
-        
-        requestAnimationFrame(animateGame);
-    }
-
-    window.addEventListener('keydown', (e) => { if(e.code === 'Space' && dino.grounded) { dino.dy = dino.jump; dino.grounded = false; } });
-    canvas.addEventListener('touchstart', () => { if(dino.grounded) { dino.dy = dino.jump; dino.grounded = false; } });
-
+    window.addEventListener('keydown', (e) => { if(e.code === 'Space' && gameRunning && !isJumping) { dinoVel = -11; isJumping = true; e.preventDefault(); } });
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); if(gameRunning && !isJumping) { dinoVel = -11; isJumping = true; } });
+    
+    function convertGamePointsToMoney() { if(gamePointsBalance > 0 && gameRunning === false) { let reward = gamePointsBalance * 5; balance += reward; showToast(`✨ حصلت على ${reward} ريال من نقاط اللعبة!`); updateUI(); gamePointsBalance = 0; document.getElementById('gameRewardPoints').innerText = "0"; } else if(gameRunning) showToast("أنهِ اللعبة أولاً ثم حول النقاط"); else showToast("لا توجد نقاط مستحقة، العب واحصل على نقاط أولاً"); }
+    
+    // إعادة ضبط زر start
+    function initGameUi() { resetAndStartGame(); }
+    document.getElementById('startGameBtn').onclick = () => { if(gameRunning) { gameRunning=false; if(frameReq) cancelAnimationFrame(frameReq); showToast("تم إيقاف اللعبة"); } resetAndStartGame(); };
+    
     renderProducts();
+    updateUI();
+    updateOrdersListUI();
+    resetAndStartGame();   // تجهيز اللعبة فوراً عند التحميل
+    document.getElementById('profName').innerText = "مستشار AB9";
+    document.getElementById('userNameInput').value = "";
+    updateUI();
 </script>
 </body>
-</html>
+                                                                                                                                                </html>
